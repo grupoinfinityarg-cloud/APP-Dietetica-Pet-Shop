@@ -482,24 +482,36 @@
 
   <!-- FLOATING MINI-CART SUMMARY BAR (MOBILE ONLY) -->
   <div id="mobileCartBar" class="hidden lg:hidden fixed bottom-16 left-0 right-0 z-40 px-3 pointer-events-none">
-    <div class="pointer-events-auto bg-inverse-surface text-inverse-on-surface rounded-2xl p-3 shadow-xl flex items-center justify-between border border-surface-container-highest/20 backdrop-blur-md">
-      <div class="flex items-center gap-2.5">
-        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+    <div class="pointer-events-auto bg-inverse-surface text-inverse-on-surface rounded-2xl p-2.5 sm:p-3 shadow-2xl flex items-center justify-between border border-white/10 backdrop-blur-md transition-all active:scale-[0.99]">
+      <div onclick="posApp.openMobileCart()" class="flex items-center gap-2.5 cursor-pointer flex-1 min-w-0 pr-2" title="Toca para ver y editar productos de la orden">
+        <div class="relative w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shrink-0 shadow-sm">
           <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+          <span id="mobileCartBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-secondary text-on-secondary text-[10px] font-black flex items-center justify-center border-2 border-inverse-surface">1</span>
         </div>
-        <div>
-          <span class="text-[11px] text-outline-variant font-bold uppercase tracking-wider block">Orden Activa</span>
+        <div class="min-w-0">
           <div class="flex items-center gap-1.5">
-            <span id="mobileCartTotal" class="text-lg font-black text-primary-fixed tabular-nums">$0</span>
-            <span id="mobileCartCount" class="text-xs text-inverse-on-surface/70 font-medium">• 0 ítems</span>
+            <span class="text-[11px] text-outline-variant font-bold uppercase tracking-wider">Orden Activa</span>
+            <span class="inline-flex items-center gap-0.5 text-[10px] font-bold text-primary-fixed bg-primary/30 px-1.5 py-0.5 rounded">
+              <span class="material-symbols-outlined text-[11px]">edit</span> Ver / Editar
+            </span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span id="mobileCartTotal" class="text-base sm:text-lg font-black text-primary-fixed tabular-nums">$0</span>
+            <span id="mobileCartCount" class="text-xs text-inverse-on-surface/70 font-medium truncate">• 0 ítems</span>
           </div>
         </div>
       </div>
 
-      <button onclick="posApp.openCheckoutModal()" class="h-11 px-4 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-bold text-sm flex items-center gap-1.5 shadow active:scale-95 transition-all">
-        <span>Cobrar</span>
-        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-      </button>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button onclick="posApp.openMobileCart()" class="h-10 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-inverse-on-surface font-bold text-xs flex items-center gap-1 transition-all" title="Ver lista de productos y editar">
+          <span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+          <span class="hidden xs:inline">Detalle</span>
+        </button>
+        <button onclick="posApp.openCheckoutModal()" class="h-10 px-3.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-black text-xs sm:text-sm flex items-center gap-1 shadow-md active:scale-95 transition-all">
+          <span>Cobrar</span>
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -520,6 +532,95 @@
   </nav>
 
   <!-- ================= MODALES DEL SISTEMA ================= -->
+
+  <!-- 0. MODAL / DRAWER DE CARRITO EN MÓVIL (VER, EDITAR Y ELIMINAR ÍTEMS) -->
+  <div id="mobileCartModal" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-on-background/60 backdrop-blur-xs">
+    <div class="w-full max-w-lg max-h-[90vh] flex flex-col bg-surface-container-lowest rounded-t-3xl shadow-2xl border-t border-surface-container-highest overflow-hidden animate-in">
+      
+      <!-- Drag handle / header -->
+      <div class="pt-2.5 pb-1 flex justify-center bg-surface-container-low cursor-pointer" onclick="posApp.closeMobileCart()">
+        <div class="w-12 h-1.5 rounded-full bg-outline-variant/60"></div>
+      </div>
+
+      <!-- Encabezado del Carrito Móvil -->
+      <div class="px-4 py-3 bg-surface-container-low border-b border-surface-container-highest flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-primary-fixed text-on-primary-fixed flex items-center justify-center shadow-xs">
+            <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-extrabold text-on-surface text-base">Carrito de Venta</h3>
+              <span id="mobileModalOrderNum" class="text-xs font-bold px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed">#TK-4091</span>
+            </div>
+            <p id="mobileModalItemCount" class="text-[11px] text-on-surface-variant font-medium">Edita cantidades, re-pesa o elimina ítems</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1">
+          <button onclick="posApp.clearCart()" class="p-2 text-outline hover:text-error rounded-xl hover:bg-surface-container-high transition-colors" title="Vaciar Carrito">
+            <span class="material-symbols-outlined text-[20px]">delete_sweep</span>
+          </button>
+          <button onclick="posApp.closeMobileCart()" class="p-2 text-outline hover:text-on-surface rounded-xl hover:bg-surface-container-high transition-colors" title="Cerrar">
+            <span class="material-symbols-outlined text-[22px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Lista de Ítems Scrolleable en Móvil -->
+      <div id="mobileCartItemsList" class="flex-1 overflow-y-auto p-3.5 space-y-2.5 overscroll-contain">
+        <!-- Renderizado sincronizado vía app.js -->
+      </div>
+
+      <!-- Descuentos Rápidos en Móvil -->
+      <div class="px-3.5 py-2 bg-surface-container border-t border-surface-container-highest flex items-center justify-between text-xs font-bold text-on-surface-variant shrink-0">
+        <span>Descuento:</span>
+        <div class="flex items-center gap-1.5">
+          <button onclick="posApp.applyDiscount(0)" class="px-2.5 py-1 rounded-lg bg-surface-container-lowest border border-surface-container-highest hover:bg-surface-container-low active:scale-95">0%</button>
+          <button onclick="posApp.applyDiscount(10)" class="px-2.5 py-1 rounded-lg bg-surface-container-lowest border border-surface-container-highest hover:bg-surface-container-low text-secondary active:scale-95">Efec. 10%</button>
+          <button onclick="posApp.applyDiscount(15)" class="px-2.5 py-1 rounded-lg bg-surface-container-lowest border border-surface-container-highest hover:bg-surface-container-low text-primary active:scale-95">15%</button>
+        </div>
+      </div>
+
+      <!-- Resumen Financiero Móvil -->
+      <div class="p-3.5 bg-surface-container-low border-t border-surface-container-highest space-y-1 text-xs sm:text-sm shrink-0">
+        <div class="flex justify-between text-on-surface-variant">
+          <span>Subtotal:</span>
+          <span id="mobileModalSubtotal" class="font-bold tabular-nums text-on-surface">$0</span>
+        </div>
+        <div id="mobileModalDiscountRow" class="flex justify-between text-secondary hidden">
+          <span>Descuento:</span>
+          <span id="mobileModalDiscount" class="font-bold tabular-nums">-$0</span>
+        </div>
+        <div class="flex justify-between items-baseline pt-1 border-t border-surface-container-highest">
+          <span class="text-sm font-extrabold text-on-surface">TOTAL A COBRAR:</span>
+          <span id="mobileModalTotal" class="text-xl sm:text-2xl font-black text-primary tabular-nums">$0</span>
+        </div>
+      </div>
+
+      <!-- Botones de Acción Móvil -->
+      <div class="p-3.5 bg-surface-container-lowest border-t border-surface-container-highest space-y-2 shrink-0">
+        <button 
+          onclick="posApp.openCheckoutModal()" 
+          class="w-full h-12 bg-primary hover:bg-primary-container active:scale-[0.98] text-on-primary rounded-xl font-extrabold text-base shadow-md flex items-center justify-between px-4 transition-all"
+        >
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[22px]">payments</span>
+            <span>CONTINUAR AL COBRO</span>
+          </div>
+          <span id="mobileModalBtnTotal" class="font-black tabular-nums text-lg">$0</span>
+        </button>
+
+        <button 
+          onclick="posApp.closeMobileCart()" 
+          class="w-full py-1.5 text-center text-xs font-bold text-outline hover:text-primary active:scale-95 transition-all"
+        >
+          + Continuar agregando productos
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- 1. MODAL TÁCTIL DE BALANZA DIGITAL (PESAJE A GRANEL) -->
   <div id="scaleModal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-on-background/50 backdrop-blur-xs">
@@ -638,6 +739,15 @@
       <!-- Cuerpo Cobro -->
       <div class="p-4 sm:p-5 space-y-4">
         
+        <!-- Enlace rápido para revisar / modificar carrito (Especialmente útil en móvil) -->
+        <div class="flex items-center justify-between px-3 py-1.5 bg-surface-container-low rounded-xl border border-surface-container-highest text-xs">
+          <span class="text-on-surface-variant font-medium">¿Modificar o quitar algún producto?</span>
+          <button type="button" onclick="posApp.closeCheckoutModal(); posApp.openMobileCart();" class="text-primary font-bold hover:underline flex items-center gap-1 active:scale-95 transition-transform">
+            <span class="material-symbols-outlined text-[15px]">edit_note</span>
+            <span>Editar Carrito</span>
+          </button>
+        </div>
+
         <!-- Total Destacado -->
         <div class="bg-primary/5 border border-primary/20 rounded-2xl p-4 text-center">
           <span class="text-xs font-bold text-outline uppercase tracking-wider block">Total a Facturar</span>

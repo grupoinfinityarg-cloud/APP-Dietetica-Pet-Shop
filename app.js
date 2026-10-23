@@ -636,20 +636,34 @@ class NaturalPOSApp {
 
   renderCart() {
     const itemsListEl = document.getElementById('cartItemsList');
+    const mobileCartItemsListEl = document.getElementById('mobileCartItemsList');
     const subtotalEl = document.getElementById('cartSubtotal');
     const discountEl = document.getElementById('cartDiscount');
     const totalEl = document.getElementById('cartTotal');
     const totalBadgeEl = document.getElementById('cartTotalBtnAmount');
+    
+    // Mobile floating bar elements
     const mobileCartBar = document.getElementById('mobileCartBar');
     const mobileCartTotal = document.getElementById('mobileCartTotal');
     const mobileCartCount = document.getElementById('mobileCartCount');
-    const orderNumEl = document.getElementById('cartOrderNumber');
+    const mobileCartBadge = document.getElementById('mobileCartBadge');
+    
+    // Mobile modal elements
+    const mobileModalOrderNum = document.getElementById('mobileModalOrderNum');
+    const mobileModalItemCount = document.getElementById('mobileModalItemCount');
+    const mobileModalSubtotal = document.getElementById('mobileModalSubtotal');
+    const mobileModalDiscountRow = document.getElementById('mobileModalDiscountRow');
+    const mobileModalDiscount = document.getElementById('mobileModalDiscount');
+    const mobileModalTotal = document.getElementById('mobileModalTotal');
+    const mobileModalBtnTotal = document.getElementById('mobileModalBtnTotal');
 
+    const orderNumEl = document.getElementById('cartOrderNumber');
     if (orderNumEl) orderNumEl.textContent = this.currentOrderNumber;
+    if (mobileModalOrderNum) mobileModalOrderNum.textContent = this.currentOrderNumber;
 
     const { subtotal, discountAmount, total, totalItems } = this.calculateTotals();
 
-    // Actualizar textos financieros
+    // Actualizar textos financieros Desktop
     if (subtotalEl) subtotalEl.textContent = this.formatMoney(subtotal);
     if (discountEl) {
       if (this.discountPercent > 0) {
@@ -662,21 +676,45 @@ class NaturalPOSApp {
     if (totalEl) totalEl.textContent = this.formatMoney(total);
     if (totalBadgeEl) totalBadgeEl.textContent = this.formatMoney(total);
 
+    // Actualizar textos financieros Mobile Modal
+    if (mobileModalSubtotal) mobileModalSubtotal.textContent = this.formatMoney(subtotal);
+    if (mobileModalDiscountRow && mobileModalDiscount) {
+      if (this.discountPercent > 0) {
+        mobileModalDiscountRow.classList.remove('hidden');
+        mobileModalDiscount.textContent = `-${this.formatMoney(discountAmount)} (${this.discountPercent}%)`;
+      } else {
+        mobileModalDiscountRow.classList.add('hidden');
+      }
+    }
+    if (mobileModalTotal) mobileModalTotal.textContent = this.formatMoney(total);
+    if (mobileModalBtnTotal) mobileModalBtnTotal.textContent = this.formatMoney(total);
+    if (mobileModalItemCount) {
+      mobileModalItemCount.textContent = totalItems === 0 
+        ? 'El carrito está vacío' 
+        : `${totalItems} ítem${totalItems > 1 ? 's' : ''} en la orden actual`;
+    }
+
     // Mobile floating summary
     if (mobileCartBar) {
       if (this.cart.length > 0) {
         mobileCartBar.classList.remove('hidden');
         if (mobileCartTotal) mobileCartTotal.textContent = this.formatMoney(total);
-        if (mobileCartCount) mobileCartCount.textContent = `${totalItems} ítem${totalItems > 1 ? 's' : ''}`;
+        if (mobileCartCount) mobileCartCount.textContent = `• ${totalItems} ítem${totalItems > 1 ? 's' : ''}`;
+        if (mobileCartBadge) mobileCartBadge.textContent = totalItems;
       } else {
         mobileCartBar.classList.add('hidden');
       }
     }
 
-    if (!itemsListEl) return;
+    // Generar markup idéntico para lista en Desktop y en Modal Móvil
+    const cartHtml = this.generateCartItemsHtml();
+    if (itemsListEl) itemsListEl.innerHTML = cartHtml;
+    if (mobileCartItemsListEl) mobileCartItemsListEl.innerHTML = cartHtml;
+  }
 
+  generateCartItemsHtml() {
     if (this.cart.length === 0) {
-      itemsListEl.innerHTML = `
+      return `
         <div class="h-64 flex flex-col items-center justify-center text-center text-outline p-6">
           <div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center text-outline-variant mb-3">
             <span class="material-symbols-outlined text-3xl">shopping_cart</span>
@@ -685,10 +723,9 @@ class NaturalPOSApp {
           <p class="text-body-sm text-on-surface-variant max-w-[200px] mt-1">Selecciona productos del catálogo o escanea con el lector.</p>
         </div>
       `;
-      return;
     }
 
-    itemsListEl.innerHTML = this.cart.map((item, idx) => {
+    return this.cart.map((item, idx) => {
       const isBulk = item.type === 'bulk';
       return `
         <div class="p-3 bg-surface-bright rounded-xl border border-surface-container-high/80 flex items-start justify-between gap-2.5 transition-all hover:border-outline-variant">
@@ -708,33 +745,33 @@ class NaturalPOSApp {
                 : `${this.formatMoney(item.unitPrice)} c/u`}
             </p>
 
-            <!-- Stepper rápido -->
+            <!-- Stepper rápido para sumar/restar o re-pesar -->
             <div class="flex items-center gap-2 mt-2">
               <div class="inline-flex items-center bg-surface-container-lowest border border-surface-container-highest rounded-lg overflow-hidden shadow-xs">
-                <button class="w-7 h-7 flex items-center justify-center text-on-surface hover:bg-surface-container-low active:scale-95 transition-all" onclick="posApp.updateItemQuantity(${idx}, -1)" title="Disminuir">
+                <button class="w-8 h-8 flex items-center justify-center text-on-surface hover:bg-surface-container-low active:scale-95 transition-all" onclick="posApp.updateItemQuantity(${idx}, -1)" title="Disminuir">
                   <span class="material-symbols-outlined text-[16px]">remove</span>
                 </button>
-                <span class="w-8 text-center text-label-md font-bold tabular-nums">
+                <span class="min-w-8 px-1 text-center text-label-md font-bold tabular-nums">
                   ${isBulk ? (item.weightGrams + 'g') : item.quantity}
                 </span>
-                <button class="w-7 h-7 flex items-center justify-center text-on-surface hover:bg-surface-container-low active:scale-95 transition-all" onclick="posApp.updateItemQuantity(${idx}, 1)" title="Aumentar">
+                <button class="w-8 h-8 flex items-center justify-center text-on-surface hover:bg-surface-container-low active:scale-95 transition-all" onclick="posApp.updateItemQuantity(${idx}, 1)" title="Aumentar">
                   <span class="material-symbols-outlined text-[16px]">add</span>
                 </button>
               </div>
 
               ${isBulk ? `
-                <button class="text-xs text-primary font-semibold hover:underline flex items-center gap-0.5" onclick="posApp.reweighItem(${idx})">
+                <button class="text-xs text-primary font-semibold hover:underline flex items-center gap-0.5 py-1 px-1.5 rounded bg-primary/10" onclick="posApp.reweighItem(${idx})">
                   <span class="material-symbols-outlined text-[13px]">scale</span> Re-pesar
                 </button>
               ` : ''}
             </div>
           </div>
 
-          <div class="text-right flex flex-col justify-between items-end self-stretch">
+          <div class="text-right flex flex-col justify-between items-end self-stretch pl-2">
             <span class="text-headline-md font-extrabold text-on-surface tabular-nums">
               ${this.formatMoney(item.subtotal)}
             </span>
-            <button class="p-1 text-outline hover:text-error rounded-md transition-colors" onclick="posApp.removeItem(${idx})" title="Eliminar ítem">
+            <button class="p-1.5 text-outline hover:text-error rounded-md transition-colors active:scale-95" onclick="posApp.removeItem(${idx})" title="Eliminar ítem">
               <span class="material-symbols-outlined text-[18px]">delete</span>
             </button>
           </div>
@@ -743,10 +780,22 @@ class NaturalPOSApp {
     }).join('');
   }
 
+  openMobileCart() {
+    const modal = document.getElementById('mobileCartModal');
+    if (modal) modal.classList.remove('hidden');
+    this.renderCart();
+  }
+
+  closeMobileCart() {
+    const modal = document.getElementById('mobileCartModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
   reweighItem(idx) {
     const item = this.cart[idx];
     const prod = this.products.find(p => p.id === item.id);
     if (!prod) return;
+    this.closeMobileCart();
     this.removeItem(idx);
     this.openScaleModal(prod, item.weightGrams);
   }
@@ -834,6 +883,8 @@ class NaturalPOSApp {
       alert('El ticket está vacío. Agrega productos para cobrar.');
       return;
     }
+
+    this.closeMobileCart();
 
     const { total } = this.calculateTotals();
     const modal = document.getElementById('checkoutModal');
