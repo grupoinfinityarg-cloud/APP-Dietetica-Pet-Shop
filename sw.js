@@ -1,4 +1,4 @@
-const CACHE_NAME = 'natural-pos-v2';
+const CACHE_NAME = 'natural-pos-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
