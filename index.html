@@ -356,8 +356,13 @@
       </div>
     </div>
 
-    <!-- Tabla de Productos -->
-    <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-highest overflow-hidden shadow-xs">
+    <!-- Vista Móvil: Tarjetas Compactas en 2 Líneas (md:hidden) -->
+    <div id="stockMobileCards" class="md:hidden space-y-2.5">
+      <!-- Renderizado dinámicamente vía app.js -->
+    </div>
+
+    <!-- Vista Desktop: Tabla Tradicional (hidden md:block) -->
+    <div class="hidden md:block bg-surface-container-lowest rounded-2xl border border-surface-container-highest overflow-hidden shadow-xs">
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
           <thead class="bg-surface-container-low text-xs font-bold text-on-surface-variant uppercase border-b border-surface-container-highest">

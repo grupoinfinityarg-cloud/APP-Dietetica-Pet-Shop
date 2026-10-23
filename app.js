@@ -1117,55 +1117,125 @@ class NaturalPOSApp {
 
   // VISTA AJUSTE DE PRECIOS & STOCK
   renderStockTable() {
-    const container = document.getElementById('stockTableBody');
-    if (!container) return;
+    const tableBody = document.getElementById('stockTableBody');
+    const mobileContainer = document.getElementById('stockMobileCards');
 
-    container.innerHTML = this.products.map(p => `
-      <tr class="border-b border-surface-container-highest hover:bg-surface-container-low/50 transition-colors">
-        <td class="p-3">
-          <div class="flex items-center gap-2.5">
-            <img src="${p.image}" class="w-10 h-10 rounded-lg object-cover" alt="${p.name}"/>
-            <div>
-              <span class="font-bold text-on-surface block text-body-md">${p.name}</span>
-              <span class="text-xs text-outline font-mono">${p.barcode}</span>
+    // 1. Render Vista Móvil: Tarjetas compactas en 2 Líneas
+    if (mobileContainer) {
+      mobileContainer.innerHTML = this.products.map(p => `
+        <div class="bg-surface-container-lowest p-2.5 rounded-2xl border border-surface-container-highest shadow-xs flex items-center gap-3 transition-all hover:border-outline-variant">
+          <!-- Foto que abarca las 2 líneas -->
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 bg-surface-container-low shadow-inner">
+            <img src="${p.image}" class="w-full h-full object-cover" alt="${p.name}"/>
+          </div>
+
+          <!-- Contenedor Derecho: 2 Líneas de datos -->
+          <div class="flex-1 min-w-0 flex flex-col justify-between gap-1.5">
+            
+            <!-- LÍNEA SUPERIOR: "PRODUCTO" | "TIPO" | "PRECIO" -->
+            <div class="flex items-center justify-between gap-2 min-w-0">
+              <div class="min-w-0 flex-1 truncate">
+                <h4 class="font-extrabold text-on-surface text-[14px] leading-tight truncate">${p.name}</h4>
+                <span class="text-[10px] text-outline font-mono block">${p.barcode}</span>
+              </div>
+
+              <span class="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                p.type === 'bulk' ? 'bg-primary-fixed text-on-primary-fixed' : 'bg-surface-container-highest text-on-surface'
+              }">
+                ${p.type === 'bulk' ? 'Granel' : 'Unidad'}
+              </span>
+
+              <div class="shrink-0 flex items-center gap-0.5">
+                <span class="text-xs text-outline font-bold">$</span>
+                <input 
+                  type="number" 
+                  value="${p.price}" 
+                  class="w-20 px-1.5 py-0.5 bg-surface-container-low border border-surface-container-highest rounded-lg font-black text-right tabular-nums text-primary text-sm focus:border-primary focus:ring-1 focus:ring-primary" 
+                  onchange="posApp.updateProductPrice('${p.id}', this.value)"
+                />
+              </div>
             </div>
+
+            <!-- LÍNEA INFERIOR: "STOCK" | "VENTAS" | "ACCIONES" (sin nombres de etiquetas) -->
+            <div class="flex items-center justify-between gap-2 pt-1 border-t border-surface-container-high/60">
+              
+              <!-- Control de Stock (sin la palabra "Stock") -->
+              <div class="flex items-center gap-1 bg-surface-container-low border border-surface-container-highest rounded-lg px-1 py-0.5 shadow-2xs">
+                <button class="w-6 h-6 rounded bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center text-xs font-bold active:scale-95" onclick="posApp.adjustProductStock('${p.id}', -1)">-</button>
+                <span class="w-9 text-center font-extrabold tabular-nums text-xs text-on-surface">${p.stock}</span>
+                <button class="w-6 h-6 rounded bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center text-xs font-bold active:scale-95" onclick="posApp.adjustProductStock('${p.id}', 1)">+</button>
+              </div>
+
+              <!-- Indicador de Ventas (sin la palabra "Ventas") -->
+              <span class="text-secondary font-black text-xs px-2 py-0.5 rounded-md bg-secondary-container/50 flex items-center gap-0.5" title="${p.salesCount || 0} ventas">
+                🔥 ${p.salesCount || 0}
+              </span>
+
+              <!-- Acciones: Editar y Eliminar (sin la palabra "Acciones") -->
+              <div class="flex items-center gap-1">
+                <button onclick="posApp.openProductModal('${p.id}')" class="w-7 h-7 flex items-center justify-center text-primary bg-primary-fixed/40 hover:bg-primary-fixed rounded-lg transition-colors active:scale-95" title="Editar producto">
+                  <span class="material-symbols-outlined text-[16px]">edit</span>
+                </button>
+                <button onclick="posApp.deleteProduct('${p.id}')" class="w-7 h-7 flex items-center justify-center text-outline hover:text-error bg-surface-container-high hover:bg-error-container/40 rounded-lg transition-colors active:scale-95" title="Eliminar producto">
+                  <span class="material-symbols-outlined text-[16px]">delete</span>
+                </button>
+              </div>
+            </div>
+
           </div>
-        </td>
-        <td class="p-3">
-          <span class="px-2 py-0.5 rounded-full text-xs font-bold ${
-            p.type === 'bulk' ? 'bg-primary-fixed text-on-primary-fixed' : 'bg-surface-container-highest text-on-surface'
-          }">
-            ${p.type === 'bulk' ? 'Granel' : 'Unidad'}
-          </span>
-        </td>
-        <td class="p-3">
-          <div class="flex items-center gap-1.5">
-            <span class="text-outline font-bold">$</span>
-            <input type="number" value="${p.price}" class="w-24 px-2 py-1 bg-surface-container-lowest border border-surface-container-highest rounded-lg font-bold tabular-nums text-on-surface text-sm focus:border-primary focus:ring-1 focus:ring-primary" onchange="posApp.updateProductPrice('${p.id}', this.value)"/>
-          </div>
-        </td>
-        <td class="p-3">
-          <div class="flex items-center gap-1.5">
-            <button class="w-6 h-6 rounded bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center text-xs font-bold" onclick="posApp.adjustProductStock('${p.id}', -1)">-</button>
-            <span class="w-12 text-center font-bold tabular-nums text-sm">${p.stock}</span>
-            <button class="w-6 h-6 rounded bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center text-xs font-bold" onclick="posApp.adjustProductStock('${p.id}', 1)">+</button>
-          </div>
-        </td>
-        <td class="p-3 text-center">
-          <span class="text-secondary font-bold text-sm">🔥 ${p.salesCount || 0}</span>
-        </td>
-        <td class="p-3 text-right">
-          <div class="flex items-center justify-end gap-1.5">
-            <button onclick="posApp.openProductModal('${p.id}')" class="p-1.5 text-primary hover:bg-primary-fixed/40 rounded-lg transition-colors" title="Editar producto completo">
-              <span class="material-symbols-outlined text-[18px]">edit</span>
-            </button>
-            <button onclick="posApp.deleteProduct('${p.id}')" class="p-1.5 text-outline hover:text-error hover:bg-error-container/40 rounded-lg transition-colors" title="Eliminar producto">
-              <span class="material-symbols-outlined text-[18px]">delete</span>
-            </button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
+        </div>
+      `).join('');
+    }
+
+    // 2. Render Vista Desktop: Tabla Tradicional
+    if (tableBody) {
+      tableBody.innerHTML = this.products.map(p => `
+        <tr class="border-b border-surface-container-highest hover:bg-surface-container-low/50 transition-colors">
+          <td class="p-3">
+            <div class="flex items-center gap-2.5">
+              <img src="${p.image}" class="w-10 h-10 rounded-lg object-cover" alt="${p.name}"/>
+              <div>
+                <span class="font-bold text-on-surface block text-body-md">${p.name}</span>
+                <span class="text-xs text-outline font-mono">${p.barcode}</span>
+              </div>
+            </div>
+          </td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded-full text-xs font-bold ${
+              p.type === 'bulk' ? 'bg-primary-fixed text-on-primary-fixed' : 'bg-surface-container-highest text-on-surface'
+            }">
+              ${p.type === 'bulk' ? 'Granel' : 'Unidad'}
+            </span>
+          </td>
+          <td class="p-3">
+            <div class="flex items-center gap-1.5">
+              <span class="text-outline font-bold">$</span>
+              <input type="number" value="${p.price}" class="w-24 px-2 py-1 bg-surface-container-lowest border border-surface-container-highest rounded-lg font-bold tabular-nums text-on-surface text-sm focus:border-primary focus:ring-1 focus:ring-primary" onchange="posApp.updateProductPrice('${p.id}', this.value)"/>
+            </div>
+          </td>
+          <td class="p-3">
+            <div class="flex items-center gap-1.5">
+              <button class="w-6 h-6 rounded bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center text-xs font-bold" onclick="posApp.adjustProductStock('${p.id}', -1)">-</button>
+              <span class="w-12 text-center font-bold tabular-nums text-sm">${p.stock}</span>
+              <button class="w-6 h-6 rounded bg-surface-container-high hover:bg-surface-container-highest flex items-center justify-center text-xs font-bold" onclick="posApp.adjustProductStock('${p.id}', 1)">+</button>
+            </div>
+          </td>
+          <td class="p-3 text-center">
+            <span class="text-secondary font-bold text-sm">🔥 ${p.salesCount || 0}</span>
+          </td>
+          <td class="p-3 text-right">
+            <div class="flex items-center justify-end gap-1.5">
+              <button onclick="posApp.openProductModal('${p.id}')" class="p-1.5 text-primary hover:bg-primary-fixed/40 rounded-lg transition-colors" title="Editar producto completo">
+                <span class="material-symbols-outlined text-[18px]">edit</span>
+              </button>
+              <button onclick="posApp.deleteProduct('${p.id}')" class="p-1.5 text-outline hover:text-error hover:bg-error-container/40 rounded-lg transition-colors" title="Eliminar producto">
+                <span class="material-symbols-outlined text-[18px]">delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
   }
 
   // GESTIÓN COMPLETA DE PRODUCTOS (CREAR, EDITAR, ELIMINAR)
