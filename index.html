@@ -211,37 +211,53 @@
         </div>
       </div>
 
-      <!-- PÍLDORAS DE CATEGORÍA CON SCROLL TÁCTIL SUAVE -->
-      <nav class="flex items-center gap-2 overflow-x-auto scrollbar-none pb-2 mb-3">
-        <!-- 🔥 MÁS VENDIDOS (Por defecto activo, se actualiza dinámicamente) -->
-        <button data-category-chip="top" class="whitespace-nowrap px-4 py-2 rounded-xl bg-primary text-on-primary font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
-          <span class="text-base">🔥</span> Más Vendidos
-        </button>
+      <!-- PÍLDORAS DE CATEGORÍA Y SELECTOR DE ORDENAMIENTO -->
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <!-- Píldoras de Categoría con scroll táctil -->
+        <nav class="flex items-center gap-2 overflow-x-auto scrollbar-none pb-1 flex-1">
+          <!-- 🔥 MÁS VENDIDOS (Por defecto activo, se actualiza dinámicamente) -->
+          <button data-category-chip="top" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-primary text-on-primary font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
+            <span class="text-base">🔥</span> Más Vendidos
+          </button>
 
-        <button data-category-chip="granel" class="whitespace-nowrap px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
-          <span class="text-base">🌾</span> Granel &amp; Frutos Secos
-        </button>
+          <button data-category-chip="granel" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
+            <span class="text-base">🌾</span> Granel &amp; Frutos Secos
+          </button>
 
-        <button data-category-chip="mascotas" class="whitespace-nowrap px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
-          <span class="text-base">🐶</span> Alimento Mascotas
-        </button>
+          <button data-category-chip="mascotas" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
+            <span class="text-base">🐶</span> Alimento Mascotas
+          </button>
 
-        <button data-category-chip="dietetica" class="whitespace-nowrap px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
-          <span class="text-base">🌿</span> Dietética &amp; Harinas
-        </button>
+          <button data-category-chip="dietetica" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
+            <span class="text-base">🌿</span> Dietética &amp; Harinas
+          </button>
 
-        <button data-category-chip="accesorios" class="whitespace-nowrap px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
-          <span class="text-base">🐱</span> Accesorios Pet
-        </button>
+          <button data-category-chip="accesorios" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
+            <span class="text-base">🐱</span> Accesorios Pet
+          </button>
 
-        <button data-category-chip="suplementos" class="whitespace-nowrap px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
-          <span class="text-base">💊</span> Suplementos
-        </button>
+          <button data-category-chip="suplementos" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
+            <span class="text-base">💊</span> Suplementos
+          </button>
 
-        <button data-category-chip="all" class="whitespace-nowrap px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
-          Todos los Productos
-        </button>
-      </nav>
+          <button data-category-chip="all" class="whitespace-nowrap px-3.5 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-bold text-xs sm:text-sm hover:bg-surface-container-low flex items-center gap-1.5 active:scale-95 transition-all">
+            Todos
+          </button>
+        </nav>
+
+        <!-- Filtro de Ordenamiento POS -->
+        <div class="shrink-0 flex items-center gap-1.5 bg-surface-container-lowest border border-surface-container-highest px-3 py-1.5 rounded-xl shadow-xs">
+          <span class="material-symbols-outlined text-[18px] text-outline">swap_vert</span>
+          <select id="posSortSelect" onchange="posApp.setSort(this.value)" class="bg-transparent border-none text-xs font-bold text-on-surface focus:ring-0 p-0 cursor-pointer">
+            <option value="ventas">🔥 Más Vendidos</option>
+            <option value="nombre">🔤 Nombre (A-Z)</option>
+            <option value="precio_asc">💵 Menor Precio</option>
+            <option value="precio_desc">💰 Mayor Precio</option>
+            <option value="stock_desc">📦 Mayor Stock</option>
+            <option value="stock_asc">⚠️ Menor Stock</option>
+          </select>
+        </div>
+      </div>
 
       <!-- CUADRÍCULA DE PRODUCTOS REACTIVA Y RESPONSIVE -->
       <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 overflow-y-auto lg:h-[calc(100vh-210px)] pb-24 lg:pb-8 pr-1.5">
@@ -341,6 +357,19 @@
       </div>
 
       <div class="flex items-center gap-2 flex-wrap">
+        <!-- Selector de Ordenamiento en Precios y Stock -->
+        <div class="flex items-center gap-1.5 bg-surface-container-low px-2.5 py-1.5 rounded-xl border border-surface-container-highest">
+          <span class="material-symbols-outlined text-[18px] text-outline">sort</span>
+          <span class="text-xs font-bold text-outline">Ordenar:</span>
+          <select id="stockSortSelect" onchange="posApp.setStockSort(this.value)" class="bg-transparent border-none text-xs font-bold text-on-surface focus:ring-0 p-0 cursor-pointer">
+            <option value="ventas">🔥 Más Vendidos</option>
+            <option value="nombre">🔤 Nombre (A-Z)</option>
+            <option value="precio_asc">💵 Menor Precio</option>
+            <option value="precio_desc">💰 Mayor Precio</option>
+            <option value="stock_asc">⚠️ Menor Stock (Reponer)</option>
+          </select>
+        </div>
+
         <!-- Botón Crear Nuevo Producto -->
         <button onclick="posApp.openProductModal()" class="px-4 py-2 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-all">
           <span class="material-symbols-outlined text-[18px]">add_circle</span>

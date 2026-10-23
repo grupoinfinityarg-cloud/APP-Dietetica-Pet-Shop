@@ -218,6 +218,8 @@ class NaturalPOSApp {
     this.cart = this.loadCart();
     this.salesHistory = this.loadSalesHistory();
     this.currentCategory = 'top'; // 'top' = Más Vendidos por defecto!
+    this.sortBy = 'ventas'; // 'nombre', 'precio_asc', 'precio_desc', 'ventas'
+    this.stockSortBy = 'ventas'; // orden para vista de inventario
     this.searchQuery = '';
     this.discountPercent = 0;
     this.currentView = 'pos'; // 'pos', 'stock', 'cierre', 'historial'
@@ -370,15 +372,69 @@ class NaturalPOSApp {
       );
     } else {
       // Filtrado por categoría activa
-      if (this.currentCategory === 'top') {
-        // MÁS VENDIDOS: Se ordenan dinámicamente según ventas acumuladas!
-        list.sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
-      } else if (this.currentCategory !== 'all') {
+      if (this.currentCategory !== 'all' && this.currentCategory !== 'top') {
         list = list.filter(p => p.category === this.currentCategory);
       }
     }
 
+    // Ordenamiento por criterio seleccionado (nombre, precio, ventas, stock)
+    if (this.sortBy === 'nombre') {
+      list.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
+    } else if (this.sortBy === 'precio_asc') {
+      list.sort((a, b) => a.price - b.price);
+    } else if (this.sortBy === 'precio_desc') {
+      list.sort((a, b) => b.price - a.price);
+    } else if (this.sortBy === 'stock_desc') {
+      list.sort((a, b) => b.stock - a.stock);
+    } else if (this.sortBy === 'stock_asc') {
+      list.sort((a, b) => a.stock - b.stock);
+    } else if (this.sortBy === 'ventas' || this.currentCategory === 'top') {
+      list.sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
+    }
+
     return list;
+  }
+
+  setSort(criterion) {
+    this.sortBy = criterion;
+    this.renderProducts();
+    const select = document.getElementById('posSortSelect');
+    if (select) select.value = criterion;
+    this.showQuickToast(`Catálogo ordenado por: ${this.getSortLabel(criterion)}`);
+  }
+
+  getStockProducts() {
+    let list = [...this.products];
+    if (this.stockSortBy === 'nombre') {
+      list.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
+    } else if (this.stockSortBy === 'precio_asc') {
+      list.sort((a, b) => a.price - b.price);
+    } else if (this.stockSortBy === 'precio_desc') {
+      list.sort((a, b) => b.price - a.price);
+    } else if (this.stockSortBy === 'stock_asc') {
+      list.sort((a, b) => a.stock - b.stock);
+    } else if (this.stockSortBy === 'ventas') {
+      list.sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
+    }
+    return list;
+  }
+
+  setStockSort(criterion) {
+    this.stockSortBy = criterion;
+    this.renderStockTable();
+    this.showQuickToast(`Stock ordenado por: ${this.getSortLabel(criterion)}`);
+  }
+
+  getSortLabel(criterion) {
+    const labels = {
+      ventas: 'Más Vendidos',
+      nombre: 'Nombre (A-Z)',
+      precio_asc: 'Menor Precio',
+      precio_desc: 'Mayor Precio',
+      stock_desc: 'Mayor Stock',
+      stock_asc: 'Menor Stock (Reponer)'
+    };
+    return labels[criterion] || criterion;
   }
 
   renderProducts() {
@@ -1119,10 +1175,11 @@ class NaturalPOSApp {
   renderStockTable() {
     const tableBody = document.getElementById('stockTableBody');
     const mobileContainer = document.getElementById('stockMobileCards');
+    const list = this.getStockProducts();
 
     // 1. Render Vista Móvil: Tarjetas compactas en 2 Líneas
     if (mobileContainer) {
-      mobileContainer.innerHTML = this.products.map(p => `
+      mobileContainer.innerHTML = list.map(p => `
         <div class="bg-surface-container-lowest p-2.5 rounded-2xl border border-surface-container-highest shadow-xs flex items-center gap-3 transition-all hover:border-outline-variant">
           <!-- Foto que abarca las 2 líneas -->
           <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 bg-surface-container-low shadow-inner">
@@ -1189,7 +1246,7 @@ class NaturalPOSApp {
 
     // 2. Render Vista Desktop: Tabla Tradicional
     if (tableBody) {
-      tableBody.innerHTML = this.products.map(p => `
+      tableBody.innerHTML = list.map(p => `
         <tr class="border-b border-surface-container-highest hover:bg-surface-container-low/50 transition-colors">
           <td class="p-3">
             <div class="flex items-center gap-2.5">
