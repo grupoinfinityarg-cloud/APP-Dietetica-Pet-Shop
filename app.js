@@ -377,13 +377,17 @@ class NaturalPOSApp {
       }
     }
 
-    // Ordenamiento por criterio seleccionado (nombre, precio, ventas)
+    // Ordenamiento por criterio seleccionado (nombre, precio, ventas, stock)
     if (this.sortBy === 'nombre') {
       list.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }));
     } else if (this.sortBy === 'precio_asc') {
       list.sort((a, b) => a.price - b.price);
     } else if (this.sortBy === 'precio_desc') {
       list.sort((a, b) => b.price - a.price);
+    } else if (this.sortBy === 'stock_desc') {
+      list.sort((a, b) => b.stock - a.stock);
+    } else if (this.sortBy === 'stock_asc') {
+      list.sort((a, b) => a.stock - b.stock);
     } else if (this.sortBy === 'ventas' || this.currentCategory === 'top') {
       list.sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
     }
@@ -427,6 +431,7 @@ class NaturalPOSApp {
       nombre: 'Nombre (A-Z)',
       precio_asc: 'Menor Precio',
       precio_desc: 'Mayor Precio',
+      stock_desc: 'Mayor Stock',
       stock_asc: 'Menor Stock (Reponer)'
     };
     return labels[criterion] || criterion;
