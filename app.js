@@ -13,7 +13,7 @@ const DEFAULT_PRODUCTS = [
     stock: 48.5,
     barcode: '7791234560012',
     salesCount: 64,
-    image: 'https://images.unsplash.com/photo-1508061252445-5350f3ab0a55?auto=format&fit=crop&w=400&q=80'
+    image: './img/almendras.jpg'
   },
   {
     id: 'prod-2',
@@ -208,7 +208,7 @@ const DEFAULT_PRODUCTS = [
     stock: 8,
     barcode: '7791234560203',
     salesCount: 17,
-    image: 'https://images.unsplash.com/photo-1550572017-edd951aa8f72?auto=format&fit=crop&w=400&q=80'
+    image: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=600&q=80'
   }
 ];
 
@@ -248,7 +248,17 @@ class NaturalPOSApp {
     const saved = localStorage.getItem('natural_pos_products');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Actualizar automáticamente si tiene imágenes rotas en caché local
+        parsed.forEach(p => {
+          if (p.id === 'prod-1') {
+            p.image = './img/almendras.jpg';
+          }
+          if (p.id === 'prod-16' && (p.image.includes('photo-1550572017') || !p.image)) {
+            p.image = 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=600&q=80';
+          }
+        });
+        return parsed;
       } catch (e) {
         console.error('Error parseando productos guardados', e);
       }
