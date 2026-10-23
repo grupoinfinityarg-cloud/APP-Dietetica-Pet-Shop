@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="terracottaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C85A32"/>
+      <stop offset="100%" stop-color="#9F3C16"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="110" fill="url(#terracottaGrad)"/>
+  <circle cx="256" cy="256" r="190" fill="#FFFFFF" fill-opacity="0.08"/>
+  <circle cx="256" cy="235" r="130" fill="#FFFFFF" filter="url(#shadow)"/>
+  <!-- Leaf and Paw Print combo for Dietética & Pet -->
+  <path d="M210 185 C210 160 235 150 256 175 C277 150 302 160 302 185 C302 215 256 250 256 250 C256 250 210 215 210 185 Z" fill="#9F3C16"/>
+  <!-- Scale / POS Balance Base -->
+  <rect x="186" y="275" width="140" height="14" rx="7" fill="#006C49"/>
+  <rect x="250" y="250" width="12" height="28" rx="4" fill="#006C49"/>
+  <rect x="200" y="295" width="112" height="18" rx="6" fill="#171C23"/>
+  <text x="256" y="309" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="700" fill="#6CF8BB" text-anchor="middle">0.000 kg</text>
+  <!-- Text Brand -->
+  <text x="256" y="420" font-family="'Plus Jakarta Sans', sans-serif" font-size="34" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">NATURAL POS</text>
+  <text x="256" y="448" font-family="'Plus Jakarta Sans', sans-serif" font-size="16" font-weight="600" fill="#FFDBCF" text-anchor="middle" letter-spacing="2">DIETÉTICA &amp; PET SHOP</text>
+</svg>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Checkout &amp; Cobro Omnicanal - Dietética &amp; Pet Shop</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#fffbff",
+            "inverse-primary": "#ffb59c",
+            "surface-container-high": "#e4e8f2",
+            "surface-container": "#eaeef8",
+            "on-surface-variant": "#57423b",
+            "tertiary": "#4648d4",
+            "surface-tint": "#a23e18",
+            "secondary": "#006c49",
+            "surface-container-highest": "#dee2ec",
+            "on-tertiary-fixed-variant": "#2f2ebe",
+            "tertiary-fixed": "#e1e0ff",
+            "secondary-fixed": "#6ffbbe",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#00714d",
+            "tertiary-fixed-dim": "#c0c1ff",
+            "on-background": "#171c23",
+            "on-secondary-fixed": "#002113",
+            "secondary-container": "#6cf8bb",
+            "outline-variant": "#dec0b7",
+            "on-primary-fixed": "#390c00",
+            "outline": "#8a726a",
+            "on-secondary": "#ffffff",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdbcf",
+            "on-tertiary-container": "#fffbff",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#171c23",
+            "on-secondary-fixed-variant": "#005236",
+            "tertiary-container": "#6063ee",
+            "surface-variant": "#dee2ec",
+            "surface-dim": "#d6dae4",
+            "inverse-on-surface": "#edf1fb",
+            "on-primary-fixed-variant": "#822801",
+            "secondary-fixed-dim": "#4edea3",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#ffb59c",
+            "on-tertiary-fixed": "#07006c",
+            "surface-bright": "#f8f9ff",
+            "surface": "#f8f9ff",
+            "surface-container-low": "#f0f4fd",
+            "primary": "#9f3c16",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "error": "#ba1a1a",
+            "primary-container": "#bf542c",
+            "background": "#f8f9ff",
+            "inverse-surface": "#2c3138"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "margin": "2rem",
+            "gutter-mobile": "0.75rem",
+            "gutter": "1.25rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "margin-mobile": "1rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "tabular-num": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-md": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "tabular-num": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-full flex flex-col justify-between selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Mobile Wrapper with Desktop Centered Containment -->
+<div class="w-full max-w-md mx-auto min-h-screen flex flex-col bg-surface-bright pb-24 shadow-xl relative">
+<!-- Top Sticky Header -->
+<header class="sticky top-0 z-40 flex items-center justify-between px-gutter-mobile py-2.5 w-full min-h-[52px] bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-space-sm">
+<button aria-label="Volver al POS" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface hover:bg-surface-container-low active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div>
+<div class="flex items-center gap-1.5">
+<h1 class="text-headline-md font-headline-md text-on-surface">Detalle de Venta</h1>
+<span class="text-label-md font-label-md text-primary font-bold">#TK-4093</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Dietética &amp; Pet Shop Natural Market</p>
+</div>
+</div>
+<!-- Turno Badge -->
+<div class="flex items-center gap-1 px-2.5 py-1 bg-surface-container rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-label-sm font-label-sm text-on-surface font-semibold">Turno Mañana</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-margin-mobile pt-space-md space-y-space-md">
+<!-- Alerta Balanza Sincronizada -->
+<div class="flex items-center justify-between px-3 py-2 bg-surface-container-low rounded-lg border border-outline-variant/30 text-body-sm font-body-sm">
+<div class="flex items-center gap-2 text-secondary font-medium">
+<span class="material-symbols-outlined text-[18px]" data-icon="scale">scale</span>
+<span>Balanza Toledo Conectada (0.000 kg)</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-bold">ONLINE</span>
+</div>
+<!-- Detalle Ticket / Items List -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-space-md shadow-sm space-y-space-md">
+<div class="flex items-center justify-between border-b border-surface-container-highest pb-2">
+<span class="text-label-lg font-label-lg text-on-surface">Artículos Registrados (3)</span>
+<span class="text-label-sm font-label-sm text-primary font-bold cursor-pointer hover:underline">+ Agregar ítem</span>
+</div>
+<div class="space-y-3">
+<!-- Item 1: Granel -->
+<div class="flex items-start justify-between gap-2 p-2 rounded-lg bg-surface-bright/70 border border-surface-container-high">
+<div class="space-y-1">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed uppercase tracking-wider">Granel</span>
+<h2 class="text-label-lg font-label-lg text-on-surface font-bold">Almendras Nonpareil</h2>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+<span class="font-semibold text-on-surface">350g</span> × $12.000/kg
+              </p>
+</div>
+<div class="text-right space-y-1">
+<span class="text-headline-md font-headline-md text-on-surface font-bold tabular-nums">$4.200</span>
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Editar gramos" class="p-1 text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button aria-label="Eliminar ítem" class="p-1 text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2: Unidad Pet Shop -->
+<div class="flex items-start justify-between gap-2 p-2 rounded-lg bg-surface-bright/70 border border-surface-container-high">
+<div class="space-y-1">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-fixed text-on-secondary-fixed uppercase tracking-wider">Unidad</span>
+<h2 class="text-label-lg font-label-lg text-on-surface font-bold">Alimento Perro Cachorro 3kg</h2>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+<span class="font-semibold text-on-surface">1 un</span> × $8.900 (Bolsa Sellada)
+              </p>
+</div>
+<div class="text-right space-y-1">
+<span class="text-headline-md font-headline-md text-on-surface font-bold tabular-nums">$8.900</span>
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Editar cantidad" class="p-1 text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button aria-label="Eliminar ítem" class="p-1 text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 3: Granel -->
+<div class="flex items-start justify-between gap-2 p-2 rounded-lg bg-surface-bright/70 border border-surface-container-high">
+<div class="space-y-1">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-fixed text-on-primary-fixed uppercase tracking-wider">Granel</span>
+<h2 class="text-label-lg font-label-lg text-on-surface font-bold">Nueces Mariposa</h2>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+<span class="font-semibold text-on-surface">250g</span> × $15.800/kg
+              </p>
+</div>
+<div class="text-right space-y-1">
+<span class="text-headline-md font-headline-md text-on-surface font-bold tabular-nums">$3.950</span>
+<div class="flex items-center justify-end gap-1">
+<button aria-label="Editar gramos" class="p-1 text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+<button aria-label="Eliminar ítem" class="p-1 text-outline hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Desglose Financiero & Total Gigante Terracota -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-space-md shadow-sm space-y-3">
+<div class="flex justify-between items-center text-body-md font-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span class="font-medium tabular-nums text-on-surface">$17.050</span>
+</div>
+<div class="flex justify-between items-center text-body-md font-body-md text-secondary">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="loyalty">loyalty</span>
+<span>Descuento Efectivo 10%</span>
+</div>
+<span class="font-bold tabular-nums">-$1.705</span>
+</div>
+<div class="pt-3 border-t border-dashed border-outline-variant flex items-baseline justify-between">
+<div>
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider block font-bold">Total a Cobrar</span>
+<span class="text-body-sm font-body-sm text-secondary font-medium">Ahorro: $1.705 aplicado</span>
+</div>
+<div class="text-right">
+<span class="text-headline-xl-mobile font-headline-xl-mobile text-primary font-extrabold tracking-tight tabular-nums">$15.345</span>
+</div>
+</div>
+</section>
+<!-- Selector Táctil de Métodos de Pago -->
+<section class="space-y-2">
+<label class="text-label-lg font-label-lg text-on-surface font-bold block">Método de Pago</label>
+<div class="grid grid-cols-3 gap-2">
+<!-- Efectivo (Activo) -->
+<button class="flex flex-col items-center justify-center p-3 rounded-xl border-2 border-primary bg-primary/5 text-primary text-center transition-all" type="button">
+<span class="material-symbols-outlined text-[26px] mb-1" data-icon="payments" data-weight="fill">payments</span>
+<span class="text-label-md font-label-md font-bold">Efectivo</span>
+<span class="text-[10px] text-secondary font-bold mt-0.5">10% OFF</span>
+</button>
+<!-- Mercado Pago / QR -->
+<button class="flex flex-col items-center justify-center p-3 rounded-xl border border-outline-variant/60 bg-surface-container-lowest text-on-surface-variant text-center hover:bg-surface-container-low transition-all" type="button">
+<span class="material-symbols-outlined text-[26px] mb-1" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="text-label-md font-label-md font-bold">QR / MP</span>
+<span class="text-[10px] text-on-surface-variant mt-0.5">Interoperable</span>
+</button>
+<!-- Tarjeta Débito / Crédito -->
+<button class="flex flex-col items-center justify-center p-3 rounded-xl border border-outline-variant/60 bg-surface-container-lowest text-on-surface-variant text-center hover:bg-surface-container-low transition-all" type="button">
+<span class="material-symbols-outlined text-[26px] mb-1" data-icon="credit_card">credit_card</span>
+<span class="text-label-md font-label-md font-bold">Tarjeta</span>
+<span class="text-[10px] text-on-surface-variant mt-0.5">Posnet</span>
+</button>
+</div>
+<!-- Calculadora de Vuelto (Desplegada para Efectivo) -->
+<div class="mt-3 p-3.5 bg-surface-container-lowest rounded-xl border border-outline-variant/40 space-y-3 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface font-semibold">Cálculo Rápido de Vuelto</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Billetes comunes</span>
+</div>
+<div class="grid grid-cols-4 gap-1.5">
+<button class="py-1.5 bg-surface-container text-on-surface text-label-sm font-label-sm rounded-lg font-bold hover:bg-surface-container-high transition-colors" type="button">$16.000</button>
+<button class="py-1.5 bg-primary text-on-primary text-label-sm font-label-sm rounded-lg font-bold shadow-sm" type="button">$20.000</button>
+<button class="py-1.5 bg-surface-container text-on-surface text-label-sm font-label-sm rounded-lg font-bold hover:bg-surface-container-high transition-colors" type="button">$25.000</button>
+<button class="py-1.5 bg-surface-container text-on-surface text-label-sm font-label-sm rounded-lg font-bold hover:bg-surface-container-high transition-colors" type="button">Exacto</button>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container-highest">
+<div>
+<span class="text-body-sm font-body-sm text-on-surface-variant block">Paga con:</span>
+<span class="text-label-lg font-label-lg font-bold text-on-surface tabular-nums">$20.000,00</span>
+</div>
+<div class="text-right">
+<span class="text-body-sm font-body-sm text-secondary font-bold block">Vuelto a entregar:</span>
+<span class="text-headline-md font-headline-md font-extrabold text-secondary tabular-nums">$4.655,00</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Sección de Ticket Digital WhatsApp -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 p-space-md shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#059669]" data-icon="chat" data-weight="fill">chat</span>
+<h3 class="text-label-lg font-label-lg text-on-surface font-bold">Ticket Digital WhatsApp</h3>
+</div>
+<span class="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#ECFDF5] text-[#059669] font-bold">Ecológico</span>
+</div>
+<div>
+<label class="text-body-sm font-body-sm text-on-surface-variant block mb-1" for="whatsapp-phone">Teléfono Móvil del Cliente</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-body-md font-body-md text-on-surface-variant font-medium">🇦🇷 +54 9</span>
+<input class="w-full pl-24 pr-10 py-2.5 rounded-lg border border-outline-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 text-on-surface font-body-md font-medium text-base outline-none transition-all" id="whatsapp-phone" placeholder="11 1234 5678" type="tel" value="11 5849 3321"/>
+<span class="material-symbols-outlined absolute right-3 text-secondary text-[20px]" data-icon="check_circle" data-weight="fill">check_circle</span>
+</div>
+</div>
+<label class="flex items-center gap-2 cursor-pointer select-none pt-1">
+<input checked="" class="w-4 h-4 rounded text-secondary focus:ring-secondary/20 border-outline-variant" type="checkbox"/>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">Enviar ticket automático por WhatsApp al finalizar</span>
+</label>
+</section>
+<!-- Botones de Acción de Cobro -->
+<section class="space-y-2.5 pt-1">
+<!-- Botón Primario Terracota Full Width -->
+<button class="w-full min-h-[48px] py-3.5 px-4 bg-[#C85A32] hover:bg-[#A23F1E] active:scale-95 text-[#FFFFFF] rounded-lg font-headline-md text-label-lg font-bold flex items-center justify-center gap-2 shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[22px]" data-icon="check_circle">check_circle</span>
+<span>Confirmar Cobro ($15.345)</span>
+</button>
+<!-- Botón Secundario WhatsApp -->
+<button class="w-full min-h-[44px] py-2.5 px-4 bg-[#10B981] hover:bg-[#059669] active:scale-95 text-[#FFFFFF] rounded-lg font-label-lg font-bold flex items-center justify-center gap-2 shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat" data-weight="fill">chat</span>
+<span>Cobrar y Compartir Ticket</span>
+</button>
+<!-- Acceso a Impresión Térmica Bluetooth -->
+<div class="flex items-center justify-center pt-1 pb-2">
+<button class="flex items-center gap-1.5 text-body-sm font-body-sm text-on-surface-variant hover:text-on-surface underline" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="print">print</span>
+<span>Imprimir copia en Miniprinter Bluetooth (58mm)</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Mandatory Shared Component: Active in 'Cobro' -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter-mobile py-space-xs bg-surface-container-lowest shadow-[0_-2px_6px_rgba(30,35,42,0.04)]">
+<!-- POS: Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+<span class="text-label-sm font-label-sm">POS</span>
+</a>
+<!-- Cobro: Active (Execution via style_active_navigation) -->
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-xl px-3 py-1.5 min-h-[48px] active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart_checkout">shopping_cart_checkout</span>
+<span class="text-label-sm font-label-sm">Cobro</span>
+</a>
+<!-- Stock: Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="barcode_scanner">barcode_scanner</span>
+<span class="text-label-sm font-label-sm">Stock</span>
+</a>
+<!-- Cierre: Inactive -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="lock_clock">lock_clock</span>
+<span class="text-label-sm font-label-sm">Cierre</span>
+</a>
+</nav>
+</div>
+</body></html>

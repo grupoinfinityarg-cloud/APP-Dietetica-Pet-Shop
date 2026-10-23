@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Terminal POS - Natural Market &amp; Pet</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#9f3c16",
+            "tertiary-fixed-dim": "#c0c1ff",
+            "on-secondary-container": "#00714d",
+            "secondary": "#006c49",
+            "inverse-primary": "#ffb59c",
+            "surface-container-low": "#f0f4fd",
+            "inverse-surface": "#2c3138",
+            "on-error-container": "#93000a",
+            "on-tertiary-fixed-variant": "#2f2ebe",
+            "outline": "#8a726a",
+            "primary-fixed-dim": "#ffb59c",
+            "surface-variant": "#dee2ec",
+            "surface-container-high": "#e4e8f2",
+            "secondary-container": "#6cf8bb",
+            "surface-tint": "#a23e18",
+            "on-tertiary-container": "#fffbff",
+            "on-surface": "#171c23",
+            "error": "#ba1a1a",
+            "surface-container": "#eaeef8",
+            "on-background": "#171c23",
+            "surface-bright": "#f8f9ff",
+            "on-tertiary-fixed": "#07006c",
+            "secondary-fixed-dim": "#4edea3",
+            "surface-container-lowest": "#ffffff",
+            "tertiary": "#4648d4",
+            "surface-dim": "#d6dae4",
+            "inverse-on-surface": "#edf1fb",
+            "on-error": "#ffffff",
+            "primary-container": "#bf542c",
+            "surface-container-highest": "#dee2ec",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#822801",
+            "tertiary-container": "#6063ee",
+            "background": "#f8f9ff",
+            "secondary-fixed": "#6ffbbe",
+            "outline-variant": "#dec0b7",
+            "on-secondary-fixed-variant": "#005236",
+            "on-secondary-fixed": "#002113",
+            "primary-fixed": "#ffdbcf",
+            "on-surface-variant": "#57423b",
+            "on-secondary": "#ffffff",
+            "on-primary-container": "#fffbff",
+            "on-tertiary": "#ffffff",
+            "on-primary": "#ffffff",
+            "tertiary-fixed": "#e1e0ff",
+            "surface": "#f8f9ff",
+            "on-primary-fixed": "#390c00"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "margin": "2rem",
+            "gutter": "1.25rem",
+            "space-xl": "2.5rem",
+            "gutter-mobile": "0.75rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "tabular-num": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-md": ["18px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+            "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "headline-xl-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "headline-lg-mobile": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+            "tabular-num": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+            "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased select-none pb-36">
+<!-- TOP APP BAR (Shared Component JSON aligned) -->
+<header class="sticky top-0 z-40 flex items-center justify-between px-gutter-mobile w-full min-h-[52px] bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="storefront">storefront</span>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md font-bold text-primary">Caja 01 • Turno Mañana</span>
+<div class="flex items-center gap-1.5 text-body-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-secondary inline-block animate-pulse"></span>
+<span class="text-label-sm font-label-sm">Franco R. • En línea</span>
+</div>
+</div>
+</div>
+<!-- Quick Terminal Shortcuts -->
+<div class="flex items-center gap-1.5">
+<button aria-label="Balanza digital" class="h-9 px-2.5 rounded-lg bg-surface-container-low text-primary flex items-center gap-1.5 hover:bg-surface-container-high transition-colors active:scale-95 duration-150" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="scale">scale</span>
+<span class="text-label-sm font-label-sm hidden sm:inline text-primary">Balanza</span>
+</button>
+<button aria-label="Escáner" class="w-9 h-9 rounded-lg bg-surface-container-low text-on-surface-variant flex items-center justify-center hover:bg-surface-container-high transition-colors active:scale-95 duration-150" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="qr_code_scanner">qr_code_scanner</span>
+</button>
+</div>
+</header>
+<!-- SEARCH & RAPID ACTIONS BAR -->
+<section class="px-gutter-mobile pt-space-md pb-space-xs">
+<div class="flex items-center gap-2">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]" data-icon="search">search</span>
+<input class="w-full bg-surface-container-lowest border border-surface-container-highest rounded-xl pl-10 pr-24 py-2.5 text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary/10 shadow-sm transition-all" placeholder="Buscar producto, granel o código..." type="text"/>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 text-on-surface-variant">
+<button aria-label="Código de barras" class="p-1 rounded hover:bg-surface-container-high transition-colors text-outline" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="barcode_scanner">barcode_scanner</span>
+</button>
+<button aria-label="Búsqueda por voz" class="p-1 rounded hover:bg-surface-container-high transition-colors text-outline" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="mic">mic</span>
+</button>
+</div>
+</div>
+<button aria-label="Filtro rápido" class="h-[42px] px-3 bg-surface-container-lowest border border-surface-container-highest rounded-xl text-on-surface-variant flex items-center justify-center hover:bg-surface-container-low active:scale-95 transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="tune">tune</span>
+</button>
+</div>
+</section>
+<!-- HORIZONTAL CATEGORY PILL CHIPS -->
+<nav aria-label="Categorías" class="w-full overflow-x-auto scrollbar-none px-gutter-mobile py-space-sm flex items-center gap-2">
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md shadow-sm flex items-center gap-1.5 transition-transform active:scale-95" type="button">
+<span>🔥</span> Más Vendidos
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-95" type="button">
+<span>🌾</span> Granel &amp; Frutos Secos
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-95" type="button">
+<span>🐶</span> Alimento Mascotas
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-95" type="button">
+<span>🌿</span> Dietética &amp; Harinas
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-95" type="button">
+<span>🐱</span> Accesorios Pet
+    </button>
+<button class="whitespace-nowrap px-3.5 py-1.5 rounded-full bg-surface-container-lowest border border-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors active:scale-95" type="button">
+<span>💊</span> Suplementos
+    </button>
+</nav>
+<!-- PRODUCT CATALOG GRID -->
+<main class="px-gutter-mobile py-space-xs flex-1">
+<div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+<!-- Product 1: Almendras Nonpareil (Granel) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-container-highest p-3 flex flex-col justify-between shadow-sm hover:shadow transition-shadow">
+<div>
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low mb-2.5">
+<img class="w-full h-full object-cover" data-alt="A warm top-down studio shot of premium raw organic almonds in a rustic ceramic bowl on a natural stone surface. Soft warm morning light emphasizes natural golden brown textures, perfectly suited for an artisanal dietetic store brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCplsczGcgVHJcnK052kcTHOAGwljZlIYFCICF3xz_mpv7LdZwlFHhJ-l9nxH_MxUtJ5UZsUxP0dY7IYfOfaybA_f1PVjXgjLxgHS4a3m_3FFyWGeE1lgFlTcGMsfO64Cl4t3N153ieTx6idjI4ktf47YrKoYNNKTP9aCXh4UzJr1QTo7gnlee1WEGZz9dOOJVu2c6NRSB7wYGqXqH0xCrbEmOcQzZE-m1rkWwDiwwsUk_4am5MNd3b"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-label-sm font-label-sm font-semibold flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[13px]" data-icon="scale">scale</span> Granel
+            </span>
+</div>
+<h2 class="text-label-lg font-label-lg text-on-surface line-clamp-1 mb-0.5">Almendras Nonpareil</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">Calidad Extra Premium</p>
+</div>
+<div class="pt-1 border-t border-surface-container-high/60 flex items-center justify-between">
+<div>
+<div class="text-headline-md font-headline-md text-primary font-bold tabular-nums">$12.000</div>
+<span class="text-label-sm font-label-sm text-outline">por kg</span>
+</div>
+<button class="h-10 px-3 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md flex items-center gap-1 hover:bg-primary transition-colors active:scale-95 duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="scale">scale</span>
+<span>+ Pesar</span>
+</button>
+</div>
+</article>
+<!-- Product 2: Alimento Perro Cachorro (Unidad) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-container-highest p-3 flex flex-col justify-between shadow-sm hover:shadow transition-shadow">
+<div>
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low mb-2.5">
+<img class="w-full h-full object-cover" data-alt="A minimalist packaging design of organic natural dry puppy food bag placed on a clean wooden tabletop in a bright specialty pet boutique with soft sunlit ambiance and subtle green foliage in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdY78KeGCm1HLsYS-kJtAf_5rkZssG9sA8hl8OUE2fW043vGWucDKD3LSq2fPHgZwpTosIgr0sOlozcD2QFiXjPi0HMeJ-MlQJ6v031XTJ7k6W8YOWOqtiHp-WYuYN4lehWPw5RJ3uxKrWU8WVE1jsLn_qhem3BgfBzlg928Dr-lMkleD4Kq47G6Fn4Sdk0SMA0GXWOlCzvIVIZxxlwU5nlC4YLs8lZlp2p0ophvJHrcj34WXWhZvP"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-label-sm font-label-sm font-semibold shadow-sm">
+              Por Unidad
+            </span>
+<span class="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-label-sm font-label-sm font-medium">
+              6 un
+            </span>
+</div>
+<h2 class="text-label-lg font-label-lg text-on-surface line-clamp-1 mb-0.5">Alimento Perro Cachorro 3kg</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">Pollo &amp; Arroz Integral</p>
+</div>
+<div class="pt-1 border-t border-surface-container-high/60 flex items-center justify-between">
+<div>
+<div class="text-headline-md font-headline-md text-primary font-bold tabular-nums">$8.900</div>
+<span class="text-label-sm font-label-sm text-outline">por unidad</span>
+</div>
+<button class="w-10 h-10 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md flex items-center justify-center hover:bg-primary transition-colors active:scale-95 duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+</button>
+</div>
+</article>
+<!-- Product 3: Nueces Mariposa (Granel) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-container-highest p-3 flex flex-col justify-between shadow-sm hover:shadow transition-shadow">
+<div>
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low mb-2.5">
+<img class="w-full h-full object-cover" data-alt="Close up photography of fresh peeled organic walnut halves heaped naturally in a wooden merchant tray with clean bright lighting and warm earthy tones reflecting a premium whole food grocery store." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkLWSyzV-QRxkJdX7Kt4Hz2eoWxsEJ-X49AlWbIinKAzr17nxM5QI3nGLbHTpPnaufL4pK4RFb-Sd6bbyENpApu1kTQ8tvyU86uqHCeq85IunpoaQJVGbjinZL27LWF_o7NZzc30dvJwpYqx3RDffXu7w4OJxpgjPXX_MtaNaGXI4poJgDHOybL1jhLQK-HXMSVYUB2nM8MIX0eWqI4HyYjYdBg92oubir-2CI3-37S0ivxpYe7p20"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-label-sm font-label-sm font-semibold flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[13px]" data-icon="scale">scale</span> Granel
+            </span>
+</div>
+<h2 class="text-label-lg font-label-lg text-on-surface line-clamp-1 mb-0.5">Nueces Mariposa Extra</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">Blanca seleccionada</p>
+</div>
+<div class="pt-1 border-t border-surface-container-high/60 flex items-center justify-between">
+<div>
+<div class="text-headline-md font-headline-md text-primary font-bold tabular-nums">$15.800</div>
+<span class="text-label-sm font-label-sm text-outline">por kg</span>
+</div>
+<button class="h-10 px-3 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md flex items-center gap-1 hover:bg-primary transition-colors active:scale-95 duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="scale">scale</span>
+<span>+ Pesar</span>
+</button>
+</div>
+</article>
+<!-- Product 4: Avena Arrollada Gruesa (Granel) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-container-highest p-3 flex flex-col justify-between shadow-sm hover:shadow transition-shadow">
+<div>
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low mb-2.5">
+<img class="w-full h-full object-cover" data-alt="Rustic natural whole rolled oats piled high in an artisan burlap bag with warm sunlight filtering in from the side, evoking wholesome pantry provisions and artisanal dietetic staples." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM-sPz0Ta-JH4qz67Nd2IfvxRPfUkJhykZjhUrBjOa16OQV1qGvjYUbo2V3ih32QNUpA2GbeZOkDkQZK5pHV7W0_7mKk6MKmjyidhox_VJxTR5mvc_3XN76oVqmZ1nxMCAIEu1_vZ7Ukh6oGcTFAxkNuYUVRc9BWjIGrtatYFRpfKF7hXCkUO8Zvh-qraVKXhGnG8gfgIMgwTSBzhHelg3marSpIbQF0NoYEJJRN4LDcPcCsWa5xsF"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-label-sm font-label-sm font-semibold flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[13px]" data-icon="scale">scale</span> Granel
+            </span>
+</div>
+<h2 class="text-label-lg font-label-lg text-on-surface line-clamp-1 mb-0.5">Avena Arrollada Gruesa</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">Orgánica sin conservantes</p>
+</div>
+<div class="pt-1 border-t border-surface-container-high/60 flex items-center justify-between">
+<div>
+<div class="text-headline-md font-headline-md text-primary font-bold tabular-nums">$2.100</div>
+<span class="text-label-sm font-label-sm text-outline">por kg</span>
+</div>
+<button class="h-10 px-3 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md flex items-center gap-1 hover:bg-primary transition-colors active:scale-95 duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="scale">scale</span>
+<span>+ Pesar</span>
+</button>
+</div>
+</article>
+<!-- Product 5: Pipeta Antipulgas Gatos (Unidad) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-container-highest p-3 flex flex-col justify-between shadow-sm hover:shadow transition-shadow">
+<div>
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low mb-2.5">
+<img class="w-full h-full object-cover" data-alt="Clean clinical yet friendly retail packaging box of veterinary cat flea treatment pipette set against a soft bright daylight backdrop in a contemporary pet boutique." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYHxnLeTCehQxCzo-9BCeQGSMXVILSuBM77i7BOQF1JDmXZpjsadZRug4Iscb66J3z2ebcNfSTCsf-A5lIqf8MBe7MvwIO7LloXfF36faabO3-KT-L2U39BjigL24JqsczGFlURc--EiQEcKhHugTV5Np_4k6gwG5c8Ce84tD4hggDuglFggo3EA7uHE_7V5gffiiCTb3fPbMN5YHtDB7K-Yl6tpjcp2zyq7jMu0C8Dv6opZwAgHqJ"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-label-sm font-label-sm font-semibold shadow-sm">
+              Por Unidad
+            </span>
+<span class="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-label-sm font-label-sm font-medium">
+              12 un
+            </span>
+</div>
+<h2 class="text-label-lg font-label-lg text-on-surface line-clamp-1 mb-0.5">Pipeta Antipulgas Gatos</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">Hasta 4kg • Protección total</p>
+</div>
+<div class="pt-1 border-t border-surface-container-high/60 flex items-center justify-between">
+<div>
+<div class="text-headline-md font-headline-md text-primary font-bold tabular-nums">$6.500</div>
+<span class="text-label-sm font-label-sm text-outline">por unidad</span>
+</div>
+<button class="w-10 h-10 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md flex items-center justify-center hover:bg-primary transition-colors active:scale-95 duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+</button>
+</div>
+</article>
+<!-- Product 6: Castañas de Cajú W4 (Granel) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-container-highest p-3 flex flex-col justify-between shadow-sm hover:shadow transition-shadow">
+<div>
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low mb-2.5">
+<img class="w-full h-full object-cover" data-alt="Roasted whole natural cashew nuts gently scattered on clean neutral ceramic platter, bathed in soft warm studio lighting with high clarity for an organic dietetic store catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI_z2dHxYESFcqq2XR11qhsUSwOL7tLj09vd6tWPGZHd1n99t3NBs3jrzbFFd3xkNj6okHynfkMTCwP4mfy1o4SzuVsIxi1AeDaRe8K1E_fA_yKgwEzLSAXd3Y8bYy56bSf4MadWJGJyxx-fnz0e5hkl8KGhAiHxr7sCAMsyHVLWwrjwhyuQ5bXZu8pgJFKmwnzwTbs_g7_Bf5mVM3iRVIUYlSfED7s-Dyt4KXGJtkUVAh33Gu_wcw"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-label-sm font-label-sm font-semibold flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[13px]" data-icon="scale">scale</span> Granel
+            </span>
+</div>
+<h2 class="text-label-lg font-label-lg text-on-surface line-clamp-1 mb-0.5">Castañas de Cajú W4</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">Tostadas sin sal</p>
+</div>
+<div class="pt-1 border-t border-surface-container-high/60 flex items-center justify-between">
+<div>
+<div class="text-headline-md font-headline-md text-primary font-bold tabular-nums">$15.800</div>
+<span class="text-label-sm font-label-sm text-outline">por kg</span>
+</div>
+<button class="h-10 px-3 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md flex items-center gap-1 hover:bg-primary transition-colors active:scale-95 duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="scale">scale</span>
+<span>+ Pesar</span>
+</button>
+</div>
+</article>
+<!-- Product 7: Semillas de Chía Orgánica (Granel) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-container-highest p-3 flex flex-col justify-between shadow-sm hover:shadow transition-shadow">
+<div>
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low mb-2.5">
+<img class="w-full h-full object-cover" data-alt="Macro photography of organic black chia seeds poured delicately into a small handcrafted earthenware bowl, crisp focus with soft warm natural kitchen sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVZztE1ONkeuNJNCIJ_PnwPIjh0-1DqJLftW7mPbUxKqErPe40mMFoweIWCC0aTgH6zIb28rUOpncrYkc0d1AVmwYF0wR-OOBVhNkMfGhzzr7pK2OpLNj9k7KnQlhNKwRBZhH8wNrBP5qIOAF8ZkX7V3fcF-Xkd6ptZv4YR2B0VBxeWIeR3WBnWPMPk8JaUDfYj-hgJBLe6WEN8Uuh5hBkzQWZnRQxaa5eJ4Bzz_zfXReA6XxBdTpi"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-label-sm font-label-sm font-semibold flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[13px]" data-icon="scale">scale</span> Granel
+            </span>
+</div>
+<h2 class="text-label-lg font-label-lg text-on-surface line-clamp-1 mb-0.5">Semillas de Chía Orgánica</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">Cosecha limpia seleccionada</p>
+</div>
+<div class="pt-1 border-t border-surface-container-high/60 flex items-center justify-between">
+<div>
+<div class="text-headline-md font-headline-md text-primary font-bold tabular-nums">$4.200</div>
+<span class="text-label-sm font-label-sm text-outline">por kg</span>
+</div>
+<button class="h-10 px-3 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md flex items-center gap-1 hover:bg-primary transition-colors active:scale-95 duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="scale">scale</span>
+<span>+ Pesar</span>
+</button>
+</div>
+</article>
+<!-- Product 8: Snack Perro Dental Sticks (Unidad) -->
+<article class="bg-surface-container-lowest rounded-xl border border-surface-container-highest p-3 flex flex-col justify-between shadow-sm hover:shadow transition-shadow">
+<div>
+<div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-low mb-2.5">
+<img class="w-full h-full object-cover" data-alt="Natural dental chew sticks for dogs displayed beside clean modern pet treat packaging on a bright counter, styled cleanly with warm neutral earth tones and high visual clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI1l8p3DVahkK3HAe9lfkPJAIRBTEtwl80bGQwrSHKCDPDAmA_rJCdJMt1d1qovCONNH3spXi-I0XotQUgGDOGF2R17MGQBz2XAM4YLCv5lQUJ96b6WrzykhZms8rJwjiy5_dU66UetRo6K9V0cUtJ3TJsMgBCJ4hTkdeB3gQkO1TY2siipC8RzkAJQJUBOloY4pewHxi1z50xQO6ci18PUed1W39cUqOw0L-iJ9V3UcPOV-fRgkrl"/>
+<span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface text-label-sm font-label-sm font-semibold shadow-sm">
+              Por Unidad
+            </span>
+<span class="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-label-sm font-label-sm font-medium">
+              18 un
+            </span>
+</div>
+<h2 class="text-label-lg font-label-lg text-on-surface line-clamp-1 mb-0.5">Snack Perro Dental Sticks</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">Cuidado Bucal x7 unid</p>
+</div>
+<div class="pt-1 border-t border-surface-container-high/60 flex items-center justify-between">
+<div>
+<div class="text-headline-md font-headline-md text-primary font-bold tabular-nums">$2.400</div>
+<span class="text-label-sm font-label-sm text-outline">por unidad</span>
+</div>
+<button class="w-10 h-10 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md flex items-center justify-center hover:bg-primary transition-colors active:scale-95 duration-150 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+</button>
+</div>
+</article>
+</div>
+</main>
+<!-- FLOATING CART ACTIVE BAR (Positioned neatly above BottomNavBar) -->
+<aside class="fixed bottom-[68px] left-0 w-full px-gutter-mobile z-40">
+<div class="max-w-3xl mx-auto bg-inverse-surface text-inverse-on-surface rounded-2xl p-2.5 px-3.5 shadow-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="shopping_basket">shopping_basket</span>
+<span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-secondary text-on-secondary text-label-sm font-label-sm flex items-center justify-center font-bold">3</span>
+</div>
+<div>
+<div class="text-label-md font-label-md text-surface-container-high">3 artículos en orden</div>
+<div class="text-headline-md font-headline-md font-bold text-surface-container-lowest tabular-nums">$17.050</div>
+</div>
+</div>
+<button class="h-11 px-4 bg-primary text-on-primary rounded-xl font-label-lg text-label-lg flex items-center gap-2 hover:bg-primary-container active:scale-95 transition-all shadow-md" type="button">
+<span>Ver Carrito / Cobrar</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</aside>
+<!-- BOTTOM NAVIGATION BAR (Shared Component JSON aligned: POS active) -->
+<nav aria-label="Navegación principal" class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter-mobile py-space-xs bg-surface-container-lowest shadow-[0_-2px_6px_rgba(30,35,42,0.04)]">
+<!-- Item 1: POS (ACTIVE STATE) -->
+<button class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-xl px-4 py-1.5 min-h-[48px] active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="point_of_sale">point_of_sale</span>
+<span class="text-label-sm font-label-sm font-bold mt-0.5">POS</span>
+</button>
+<!-- Item 2: Cobro -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors active:scale-95 duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="shopping_cart_checkout">shopping_cart_checkout</span>
+<span class="text-label-sm font-label-sm mt-0.5">Cobro</span>
+</button>
+<!-- Item 3: Stock -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors active:scale-95 duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="barcode_scanner">barcode_scanner</span>
+<span class="text-label-sm font-label-sm mt-0.5">Stock</span>
+</button>
+<!-- Item 4: Cierre -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors active:scale-95 duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="lock_clock">lock_clock</span>
+<span class="text-label-sm font-label-sm mt-0.5">Cierre</span>
+</button>
+</nav>
+</body></html>

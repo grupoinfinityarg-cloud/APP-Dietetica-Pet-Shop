@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background text-on-background antialiased" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Cierre de Caja • Natural Market</title>
+<!-- Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN with configuration -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#fffbff",
+            "inverse-primary": "#ffb59c",
+            "surface-container-high": "#e4e8f2",
+            "surface-container": "#eaeef8",
+            "on-surface-variant": "#57423b",
+            "tertiary": "#4648d4",
+            "surface-tint": "#a23e18",
+            "secondary": "#006c49",
+            "surface-container-highest": "#dee2ec",
+            "on-tertiary-fixed-variant": "#2f2ebe",
+            "tertiary-fixed": "#e1e0ff",
+            "secondary-fixed": "#6ffbbe",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#00714d",
+            "tertiary-fixed-dim": "#c0c1ff",
+            "on-background": "#171c23",
+            "on-secondary-fixed": "#002113",
+            "secondary-container": "#6cf8bb",
+            "outline-variant": "#dec0b7",
+            "on-primary-fixed": "#390c00",
+            "outline": "#8a726a",
+            "on-secondary": "#ffffff",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdbcf",
+            "on-tertiary-container": "#fffbff",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#171c23",
+            "on-secondary-fixed-variant": "#005236",
+            "tertiary-container": "#6063ee",
+            "surface-variant": "#dee2ec",
+            "surface-dim": "#d6dae4",
+            "inverse-on-surface": "#edf1fb",
+            "on-primary-fixed-variant": "#822801",
+            "secondary-fixed-dim": "#4edea3",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#ffb59c",
+            "on-tertiary-fixed": "#07006c",
+            "surface-bright": "#f8f9ff",
+            "surface": "#f8f9ff",
+            "surface-container-low": "#f0f4fd",
+            "primary": "#9f3c16",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "error": "#ba1a1a",
+            "primary-container": "#bf542c",
+            "background": "#f8f9ff",
+            "inverse-surface": "#2c3138"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "margin": "2rem",
+            "gutter-mobile": "0.75rem",
+            "gutter": "1.25rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "margin-mobile": "1rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "tabular-num": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-md": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "tabular-num": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-full flex flex-col justify-between font-body-md text-on-surface bg-background select-none">
+<!-- TOP APP BAR (Shared Component Anchor) -->
+<header class="sticky top-0 z-40 flex items-center justify-between px-gutter-mobile w-full min-h-[52px] bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="storefront">storefront</span>
+<div class="flex flex-col">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary leading-tight">
+          Cierre de Caja • Turno Mañana
+        </h1>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span>Cajero: <strong class="font-bold text-on-surface">Franco R.</strong></span>
+<span>•</span>
+<span id="current-date">Hoy, 14:30 hs</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button aria-label="Balanza de precisión" class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-95 duration-150" type="button">
+<span class="material-symbols-outlined" data-icon="scale">scale</span>
+</button>
+</div>
+</header>
+<!-- MAIN SCROLLABLE CONTENT CANVAS -->
+<main class="flex-1 overflow-y-auto px-margin-mobile pt-space-md pb-28 flex flex-col gap-space-md max-w-xl mx-auto w-full">
+<!-- HERO CARD: RESUMEN DE TURNO -->
+<section class="bg-surface-container-lowest rounded-xl p- space-md border border-surface-container-highest shadow-sm relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-32 h-32 bg-primary/5 rounded-full pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-base" data-icon="payments">payments</span>
+          Ventas Totales Brutas
+        </span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          Turno Abierto
+        </span>
+</div>
+<div class="flex items-baseline gap-2 mb-space-sm">
+<span class="font-headline-xl-mobile text-headline-xl-mobile font-bold text-on-surface tracking-tight">$384.500</span>
+<span class="font-label-md text-label-md text-secondary font-bold">ARS</span>
+</div>
+<!-- Métricas complementarias -->
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs border-t border-surface-container-highest">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="receipt_long">receipt_long</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Emitidos</div>
+<div class="font-label-lg text-label-lg font-bold text-on-surface">128 tickets</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm" data-icon="analytics">analytics</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Ticket Promedio</div>
+<div class="font-label-lg text-label-lg font-bold text-on-surface">$3.003</div>
+</div>
+</div>
+</div>
+</section>
+<!-- DESGLOSE POR MÉTODO DE COBRANZA -->
+<section class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between px-1">
+<h2 class="font-label-lg text-label-lg font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="account_balance_wallet">account_balance_wallet</span>
+          Desglose para Arqueo Físico
+        </h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">3 canales</span>
+</div>
+<!-- Item 1: Efectivo en Gaveta -->
+<div class="bg-surface-container-lowest border-2 border-primary/20 rounded-xl p- space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="point_of_sale">point_of_sale</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface block">Efectivo en Gaveta</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Esperado en cajón físico</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md font-bold text-primary block tracking-tight">$162.800</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">A verificar</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-2 mt-1 flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Fondo inicial: <strong class="text-on-surface font-semibold">$20.000</strong></span>
+<span class="text-outline">•</span>
+<span>Ventas efectivo: <strong class="text-on-surface font-semibold">$142.800</strong></span>
+</div>
+</div>
+<!-- Item 2: Mercado Pago / QR -->
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-xl p- space-md flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-lg" data-icon="qr_code_2">qr_code_2</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface block">Mercado Pago / QR</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">62 transacciones digitales</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md font-bold text-on-surface block tracking-tight">$148.200</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Conciliado</span>
+</div>
+</div>
+<!-- Item 3: Tarjetas Débito / Crédito -->
+<div class="bg-surface-container-lowest border border-surface-container-highest rounded-xl p- space-md flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-lg" data-icon="credit_card">credit_card</span>
+</div>
+<div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface block">Tarjetas Débito / Crédito</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">24 cupones Posnet</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-md text-headline-md font-bold text-on-surface block tracking-tight">$73.500</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Lote cerrado</span>
+</div>
+</div>
+</section>
+<!-- VERIFICACIÓN DE ARQUEO FÍSICO -->
+<section class="bg-surface-container-lowest border border-surface-container-highest rounded-xl p- space-md flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-lg text-label-lg font-bold text-on-surface flex items-center gap-1.5" for="cash-input">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="calculate">calculate</span>
+          Efectivo contado en mano
+        </label>
+<button class="font-label-sm text-label-sm text-primary hover:underline font-bold" onclick="autoFillExact()" type="button">
+          Cargar monto exacto
+        </button>
+</div>
+<!-- Input de Conteo Físico -->
+<div class="relative">
+<span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-headline-md">$</span>
+<input class="w-full bg-surface-container-low border border-surface-container-highest rounded-lg py-3 pl-8 pr-12 font-headline-md text-headline-md font-bold text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-left tracking-tight" id="cash-input" oninput="calculateDifference(this.value)" placeholder="0" step="100" type="number" value="162800"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-on-surface-variant hover:text-on-surface" onclick="clearInput()" type="button">
+<span class="material-symbols-outlined text-base" data-icon="close">close</span>
+</button>
+</div>
+<!-- Indicador Dinámico de Balance -->
+<div class="flex items-center justify-between p- space-sm rounded-lg bg-secondary-fixed/40 border border-secondary-fixed text-on-secondary-fixed transition-all" id="balance-indicator">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary font-bold text-xl" data-icon="check_circle" id="balance-icon">check_circle</span>
+<span class="font-label-md text-label-md font-bold text-on-secondary-fixed" id="balance-status">Diferencia: $0 (Caja perfecta)</span>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-secondary" id="balance-sub">Sin desvíos</span>
+</div>
+</section>
+<!-- ACCIONES DE GESTIÓN Y CIERRE -->
+<section class="flex flex-col gap-space-xs mt- space-xs">
+<!-- Botón Secundario: Retiro Parcial -->
+<button class="w-full h-11 bg-surface-container-lowest border border-outline-variant hover:bg-surface-container-low text-on-surface rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 active:scale-98 transition-all" onclick="triggerPartialWithdrawal()" type="button">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="outbox">outbox</span>
+        Retiro Parcial de Efectivo
+      </button>
+<!-- Botón Principal: Cerrar Turno & WhatsApp Directo -->
+<button class="w-full h-12 bg-primary hover:bg-surface-tint text-on-primary rounded-lg font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 shadow-sm active:scale-98 transition-all" onclick="confirmClosure()" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="lock">lock</span>
+        Cerrar Turno &amp; Enviar Resumen WhatsApp
+      </button>
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant">
+        Se emitirá reporte Z fiscal y notificación cifrada al titular.
+      </p>
+</section>
+</main>
+<!-- BOTTOM NAVIGATION BAR (Shared Component Anchor) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter-mobile py-space-xs bg-surface-container-lowest dark:bg-inverse-surface shadow-[0_-2px_6px_rgba(30,35,42,0.04)] dark:shadow-none">
+<!-- Tab: POS -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#pos">
+<span class="material-symbols-outlined text-xl" data-icon="point_of_sale">point_of_sale</span>
+<span class="font-label-sm text-label-sm mt-0.5">POS</span>
+</a>
+<!-- Tab: Cobro -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#cobro">
+<span class="material-symbols-outlined text-xl" data-icon="shopping_cart_checkout">shopping_cart_checkout</span>
+<span class="font-label-sm text-label-sm mt-0.5">Cobro</span>
+</a>
+<!-- Tab: Stock -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#stock">
+<span class="material-symbols-outlined text-xl" data-icon="barcode_scanner">barcode_scanner</span>
+<span class="font-label-sm text-label-sm mt-0.5">Stock</span>
+</a>
+<!-- Tab: Cierre (ACTIVE STATE EXACTLY MATCHED PER INSTRUCTION) -->
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-xl px-3 py-1.5 min-h-[48px] active:scale-95 transition-transform duration-150" href="#cierre">
+<span class="material-symbols-outlined text-xl" data-icon="lock_clock">lock_clock</span>
+<span class="font-label-sm text-label-sm mt-0.5">Cierre</span>
+</a>
+</nav>
+<!-- MICRO-INTERACTIONS SCRIPT -->
+<script>
+    const EXPECTED_CASH = 162800;
+
+    function calculateDifference(val) {
+      const entered = parseFloat(val) || 0;
+      const diff = entered - EXPECTED_CASH;
+      const container = document.getElementById('balance-indicator');
+      const icon = document.getElementById('balance-icon');
+      const status = document.getElementById('balance-status');
+      const sub = document.getElementById('balance-sub');
+
+      if (diff === 0) {
+        container.className = "flex items-center justify-between p-space-sm rounded-lg bg-secondary-fixed/40 border border-secondary-fixed text-on-secondary-fixed transition-all";
+        icon.className = "material-symbols-outlined text-secondary font-bold text-xl";
+        icon.textContent = "check_circle";
+        status.textContent = "Diferencia: $0 (Caja perfecta)";
+        sub.className = "font-label-sm text-label-sm font-semibold text-secondary";
+        sub.textContent = "Sin desvíos";
+      } else if (diff > 0) {
+        container.className = "flex items-center justify-between p-space-sm rounded-lg bg-tertiary-fixed/50 border border-tertiary-fixed text-on-tertiary-fixed transition-all";
+        icon.className = "material-symbols-outlined text-tertiary font-bold text-xl";
+        icon.textContent = "add_circle";
+        status.textContent = `Sobrante: +$${diff.toLocaleString('es-AR')}`;
+        sub.className = "font-label-sm text-label-sm font-semibold text-tertiary";
+        sub.textContent = "Efectivo excedente";
+      } else {
+        container.className = "flex items-center justify-between p-space-sm rounded-lg bg-error-container border border-error/30 text-on-error-container transition-all";
+        icon.className = "material-symbols-outlined text-error font-bold text-xl";
+        icon.textContent = "error";
+        status.textContent = `Faltante: -$${Math.abs(diff).toLocaleString('es-AR')}`;
+        sub.className = "font-label-sm text-label-sm font-semibold text-error";
+        sub.textContent = "Revisar gaveta";
+      }
+    }
+
+    function autoFillExact() {
+      const input = document.getElementById('cash-input');
+      input.value = EXPECTED_CASH;
+      calculateDifference(EXPECTED_CASH);
+    }
+
+    function clearInput() {
+      const input = document.getElementById('cash-input');
+      input.value = '';
+      calculateDifference(0);
+      input.focus();
+    }
+
+    function triggerPartialWithdrawal() {
+      const amount = prompt("Ingrese monto para retiro de custodia segura (sangría de caja):", "50000");
+      if (amount) {
+        alert(`Retiro de $${parseFloat(amount).toLocaleString('es-AR')} registrado con comprobante firmado.`);
+      }
+    }
+
+    function confirmClosure() {
+      const inputVal = document.getElementById('cash-input').value;
+      const entered = parseFloat(inputVal) || 0;
+      const diff = entered - EXPECTED_CASH;
+      
+      const summaryMsg = `Resumen de Cierre - Turno Mañana\nCajero: Franco R.\nVentas Totales: $384.500\nEfectivo Declarado: $${entered.toLocaleString('es-AR')}\nDiferencia: $${diff.toLocaleString('es-AR')}\n\n¿Desea cerrar el turno y disparar el reporte a WhatsApp?`;
+      
+      if (confirm(summaryMsg)) {
+        alert("Turno cerrado con éxito. Enviando resumen a WhatsApp...");
+      }
+    }
+  </script>
+</body></html>
