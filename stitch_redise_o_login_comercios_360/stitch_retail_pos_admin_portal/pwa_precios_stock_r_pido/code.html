@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-background text-on-background" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Ajuste de Precios &amp; Stock - Natural Market</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-container": "#fffbff",
+            "inverse-primary": "#ffb59c",
+            "surface-container-high": "#e4e8f2",
+            "surface-container": "#eaeef8",
+            "on-surface-variant": "#57423b",
+            "tertiary": "#4648d4",
+            "surface-tint": "#a23e18",
+            "secondary": "#006c49",
+            "surface-container-highest": "#dee2ec",
+            "on-tertiary-fixed-variant": "#2f2ebe",
+            "tertiary-fixed": "#e1e0ff",
+            "secondary-fixed": "#6ffbbe",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#00714d",
+            "tertiary-fixed-dim": "#c0c1ff",
+            "on-background": "#171c23",
+            "on-secondary-fixed": "#002113",
+            "secondary-container": "#6cf8bb",
+            "outline-variant": "#dec0b7",
+            "on-primary-fixed": "#390c00",
+            "outline": "#8a726a",
+            "on-secondary": "#ffffff",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#ffdbcf",
+            "on-tertiary-container": "#fffbff",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#171c23",
+            "on-secondary-fixed-variant": "#005236",
+            "tertiary-container": "#6063ee",
+            "surface-variant": "#dee2ec",
+            "surface-dim": "#d6dae4",
+            "inverse-on-surface": "#edf1fb",
+            "on-primary-fixed-variant": "#822801",
+            "secondary-fixed-dim": "#4edea3",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#ffb59c",
+            "on-tertiary-fixed": "#07006c",
+            "surface-bright": "#f8f9ff",
+            "surface": "#f8f9ff",
+            "surface-container-low": "#f0f4fd",
+            "primary": "#9f3c16",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "error": "#ba1a1a",
+            "primary-container": "#bf542c",
+            "background": "#f8f9ff",
+            "inverse-surface": "#2c3138"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "margin": "2rem",
+            "gutter-mobile": "0.75rem",
+            "gutter": "1.25rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "margin-mobile": "1rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Plus Jakarta Sans"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "tabular-num": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-md": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "tabular-num": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Touch optimization */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-full flex flex-col justify-between font-body-md text-on-surface bg-[#FBF9F7] pb-24 antialiased select-none">
+<!-- Mobile Header (TopAppBar Anchor) -->
+<header class="sticky top-0 z-40 flex items-center justify-between px-gutter-mobile w-full min-h-[56px] bg-surface-container-lowest shadow-sm border-b border-surface-container-highest">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[26px]">storefront</span>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary leading-tight">Ajuste de Precios &amp; Stock</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Caja 01 • Turno Mañana</p>
+</div>
+</div>
+<!-- Action: Cámara Escáner -->
+<button aria-label="Escanear Código de Barras" class="relative flex items-center justify-center w-11 h-11 rounded-xl bg-surface-container-low text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[24px]">barcode_scanner</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+</button>
+</header>
+<!-- Main Container Mobile First -->
+<main class="w-full max-w-md mx-auto px-margin-mobile flex-1 space-y- space-md mt-space-sm">
+<!-- Top Alert Notification: Inflación / Actualización Proveedor -->
+<div class="bg-primary-fixed/60 border border-outline-variant/60 rounded-xl p-3 flex items-start gap-3 shadow-sm">
+<span class="material-symbols-outlined text-primary text-[22px] shrink-0 mt-0.5" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-bold text-on-primary-fixed">Actualización Proveedor</span>
+<span class="px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-bold">4 pendientes</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+          Sugerencia automática de cambio de precio tras ingreso de remito matutino.
+        </p>
+</div>
+</div>
+<!-- Quick Filter Chips Horizontal Scroll -->
+<section class="overflow-x-auto no-scrollbar -mx-margin-mobile px-margin-mobile py-1">
+<div class="flex items-center gap-2 whitespace-nowrap">
+<button class="px-3.5 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm transition-colors">
+          Todos
+        </button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container-highest font-label-md text-label-md hover:bg-surface-container-low flex items-center gap-1.5 transition-colors">
+<span class="text-error font-bold">⚠️</span> Stock Crítico (2)
+        </button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container-highest font-label-md text-label-md hover:bg-surface-container-low flex items-center gap-1.5 transition-colors">
+<span>🥜</span> A Granel
+        </button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container-highest font-label-md text-label-md hover:bg-surface-container-low flex items-center gap-1.5 transition-colors">
+<span>🐶</span> Pet Shop
+        </button>
+<button class="px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-on-surface border border-surface-container-highest font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+          Recientes
+        </button>
+</div>
+</section>
+<!-- Product Fast Adjustment Cards Stack -->
+<div class="space-y-3">
+<!-- Item 1: Almendras Chilenas (Granel con alerta roja) -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 border border-outline-variant/60 shadow-sm transition-all hover:border-primary/40">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#D97706] font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">grain</span> A Granel
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold flex items-center gap-1 animate-pulse">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">warning</span> Reponer tolva
+              </span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mt-1.5">Almendras Chilenas</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Frutos Secos Premium • SKU: ALM-092</p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-outline block">En tolva</span>
+<span class="font-tabular-num text-tabular-num font-bold text-error bg-error-container/40 px-2 py-0.5 rounded">1.8 kg</span>
+</div>
+</div>
+<!-- Inline Price & Quick Save -->
+<div class="mt-3 pt-3 border-t border-surface-container-highest flex items-center gap-2">
+<div class="flex-1">
+<span class="font-label-sm text-label-sm text-outline block">Actual: $12.000 /kg</span>
+<div class="relative flex items-center mt-1">
+<span class="absolute left-3 text-on-surface-variant font-bold font-label-md text-label-md">$</span>
+<input class="w-full bg-[#F4EFEB] border border-outline-variant/80 rounded-lg pl-7 pr-3 py-2 font-tabular-num text-tabular-num font-bold text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" inputmode="decimal" type="number" value="13500"/>
+</div>
+</div>
+<button class="self-end h-[42px] px-3.5 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-transform" title="Confirmar nuevo precio">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Guardar</span>
+</button>
+</div>
+</article>
+<!-- Item 2: Castañas de Cajú W4 -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 border border-surface-container-highest shadow-sm hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#D97706] font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">grain</span> A Granel
+              </span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">trending_up</span> +12% sug.
+              </span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mt-1.5">Castañas de Cajú W4</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tostadas sin sal • SKU: CAJ-044</p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-outline block">Stock actual</span>
+<span class="font-tabular-num text-tabular-num font-bold text-on-surface bg-surface-container px-2 py-0.5 rounded">4.2 kg</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-surface-container-highest flex items-center gap-2">
+<div class="flex-1">
+<span class="font-label-sm text-label-sm text-outline block">Actual: $15.800 /kg</span>
+<div class="relative flex items-center mt-1">
+<span class="absolute left-3 text-on-surface-variant font-bold font-label-md text-label-md">$</span>
+<input class="w-full bg-[#F4EFEB] border border-outline-variant/80 rounded-lg pl-7 pr-3 py-2 font-tabular-num text-tabular-num font-bold text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" inputmode="decimal" type="number" value="17200"/>
+</div>
+</div>
+<button class="self-end h-[42px] px-3.5 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Guardar</span>
+</button>
+</div>
+</article>
+<!-- Item 3: Alimento Perro Adulto 15kg (Pet Shop - Stock Bajo) -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 border border-outline-variant/60 shadow-sm hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">pets</span> Pet Shop
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+                Últimas 2 un.
+              </span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mt-1.5">Alimento Perro Adulto 15kg</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Natural Balance Cordero • SKU: PET-891</p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-outline block">En depósito</span>
+<span class="font-tabular-num text-tabular-num font-bold text-error bg-error-container/40 px-2 py-0.5 rounded">2 unid.</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-surface-container-highest flex items-center gap-2">
+<div class="flex-1">
+<span class="font-label-sm text-label-sm text-outline block">Actual: $28.400 /bolsa</span>
+<div class="relative flex items-center mt-1">
+<span class="absolute left-3 text-on-surface-variant font-bold font-label-md text-label-md">$</span>
+<input class="w-full bg-[#F4EFEB] border border-outline-variant/80 rounded-lg pl-7 pr-3 py-2 font-tabular-num text-tabular-num font-bold text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" inputmode="decimal" type="number" value="31200"/>
+</div>
+</div>
+<button class="self-end h-[42px] px-3.5 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Guardar</span>
+</button>
+</div>
+</article>
+<!-- Item 4: Avena Arrollada Gruesa (Stock OK) -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 border border-surface-container-highest shadow-sm hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#D97706] font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">grain</span> A Granel
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+                Stock Óptimo
+              </span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mt-1.5">Avena Arrollada Gruesa</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Orgánica Nacional • SKU: AVE-012</p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-outline block">Stock total</span>
+<span class="font-tabular-num text-tabular-num font-bold text-secondary bg-secondary-container/30 px-2 py-0.5 rounded">18.5 kg</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-surface-container-highest flex items-center gap-2">
+<div class="flex-1">
+<span class="font-label-sm text-label-sm text-outline block">Actual: $2.100 /kg</span>
+<div class="relative flex items-center mt-1">
+<span class="absolute left-3 text-on-surface-variant font-bold font-label-md text-label-md">$</span>
+<input class="w-full bg-[#F4EFEB] border border-outline-variant/80 rounded-lg pl-7 pr-3 py-2 font-tabular-num text-tabular-num font-bold text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" inputmode="decimal" type="number" value="2300"/>
+</div>
+</div>
+<button class="self-end h-[42px] px-3.5 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Guardar</span>
+</button>
+</div>
+</article>
+<!-- Item 5: Pipeta Antipulgas Gatos (Pet Shop) -->
+<article class="bg-surface-container-lowest rounded-xl p-3.5 border border-surface-container-highest shadow-sm hover:border-primary/40 transition-all">
+<div class="flex items-start justify-between gap-2">
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">pets</span> Pet Shop
+              </span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mt-1.5">Pipeta Antipulgas Gatos</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Hasta 4kg (Unidosis) • SKU: PIP-301</p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-outline block">En vitrina</span>
+<span class="font-tabular-num text-tabular-num font-bold text-on-surface bg-surface-container px-2 py-0.5 rounded">8 unid.</span>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-surface-container-highest flex items-center gap-2">
+<div class="flex-1">
+<span class="font-label-sm text-label-sm text-outline block">Actual: $6.500 /un</span>
+<div class="relative flex items-center mt-1">
+<span class="absolute left-3 text-on-surface-variant font-bold font-label-md text-label-md">$</span>
+<input class="w-full bg-[#F4EFEB] border border-outline-variant/80 rounded-lg pl-7 pr-3 py-2 font-tabular-num text-tabular-num font-bold text-on-surface focus:bg-surface-container-lowest focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" inputmode="decimal" type="number" value="6900"/>
+</div>
+</div>
+<button class="self-end h-[42px] px-3.5 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Guardar</span>
+</button>
+</div>
+</article>
+</div>
+</main>
+<!-- Dual Floating Action Buttons (FABs) Mobile Stack -->
+<aside class="fixed right-4 bottom-20 z-40 flex flex-col items-end gap-2.5 pointer-events-none">
+<!-- Secondary FAB: Aumento Masivo Porcentual -->
+<button class="pointer-events-auto flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-surface-container-lowest text-primary border border-outline-variant shadow-lg active:scale-95 transition-transform font-label-md text-label-md font-bold">
+<span class="material-symbols-outlined text-[20px]">percent</span>
+<span>Aumento Masivo (+%)</span>
+</button>
+<!-- Primary FAB: Nuevo Producto -->
+<button class="pointer-events-auto flex items-center gap-2 px-4 py-3 rounded-full bg-primary text-on-primary shadow-xl shadow-primary/25 active:scale-95 transition-transform font-label-lg text-label-lg font-bold">
+<span class="material-symbols-outlined text-[22px]">add</span>
+<span>Nuevo Producto</span>
+</button>
+</aside>
+<!-- Shared BottomNavBar (Contextual State: 'Stock' is ACTIVE) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter-mobile py-space-xs bg-surface-container-lowest shadow-[0_-2px_6px_rgba(30,35,42,0.04)]">
+<!-- Tab 1: POS -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">point_of_sale</span>
+<span class="font-label-sm text-label-sm mt-0.5">POS</span>
+</a>
+<!-- Tab 2: Cobro -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">shopping_cart_checkout</span>
+<span class="font-label-sm text-label-sm mt-0.5">Cobro</span>
+</a>
+<!-- Tab 3: Stock (ACTIVE TAB as mandated by screen intent) -->
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-xl px-3 py-1.5 min-h-[48px] active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">barcode_scanner</span>
+<span class="font-label-sm text-label-sm mt-0.5 font-bold">Stock</span>
+</a>
+<!-- Tab 4: Cierre -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 min-h-[48px] hover:bg-surface-container-low transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">lock_clock</span>
+<span class="font-label-sm text-label-sm mt-0.5">Cierre</span>
+</a>
+</nav>
+</body></html>
