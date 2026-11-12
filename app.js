@@ -230,6 +230,8 @@ class NaturalPOSApp {
     this.isListening = false;
     this.paymentMethod = 'cash'; // 'cash', 'mercadopago', 'card', 'transfer'
     this.cashAmountGiven = 0;
+    this.demoRole = 'cajero';
+    this.isCustomerMode = false;
 
     // Caja turno inicial
     this.cashRegister = this.loadCashRegister();
@@ -244,6 +246,16 @@ class NaturalPOSApp {
     this.bindEvents();
     this.updateClock();
     setInterval(() => this.updateClock(), 1000);
+
+    // Parámetros URL para iniciar directamente en un rol o vista
+    const urlParams = new URLSearchParams(window.location.search);
+    const roleParam = urlParams.get('role');
+    const viewParam = urlParams.get('view');
+    if (roleParam && ['cliente', 'cajero', 'stock', 'dueno'].includes(roleParam)) {
+      this.setDemoRole(roleParam);
+    } else if (viewParam) {
+      this.switchView(viewParam);
+    }
   }
 
   loadProducts() {
@@ -1734,6 +1746,130 @@ class NaturalPOSApp {
     this.toastTimer = setTimeout(() => {
       toast.classList.add('opacity-0', '-translate-y-2');
     }, 2200);
+  }
+
+  // --- MODO DEMO & PRESENTACIÓN COMERCIAL (ESTILO GRUPO INFINITY / MDP BEACH) ---
+  setDemoRole(role) {
+    this.demoRole = role;
+
+    // Actualizar estilos activos de los botones de rol en la barra superior
+    const roles = ['cliente', 'cajero', 'stock', 'dueno'];
+    roles.forEach(r => {
+      const btn = document.getElementById(`roleBtn_${r}`);
+      if (btn) {
+        if (r === role) {
+          btn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-primary text-white shadow-sm flex items-center gap-1';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-white/80 hover:text-white hover:bg-white/10 flex items-center gap-1';
+        }
+      }
+    });
+
+    const customerBanner = document.getElementById('customerBanner');
+
+    if (role === 'cliente') {
+      this.isCustomerMode = true;
+      if (customerBanner) customerBanner.classList.remove('hidden');
+      this.switchView('pos');
+      this.showQuickToast('👤 Rol 1: Cliente activado — Modo Catálogo & Auto-pedido QR');
+    } else if (role === 'cajero') {
+      this.isCustomerMode = false;
+      if (customerBanner) customerBanner.classList.add('hidden');
+      this.switchView('pos');
+      this.showQuickToast('💳 Rol 2: Cajero activado — Terminal POS & Balanza');
+    } else if (role === 'stock') {
+      this.isCustomerMode = false;
+      if (customerBanner) customerBanner.classList.add('hidden');
+      this.switchView('stock');
+      this.showQuickToast('📦 Rol 3: Depósito & Stock activado — Control de Precios e Inventario');
+    } else if (role === 'dueno') {
+      this.isCustomerMode = false;
+      if (customerBanner) customerBanner.classList.add('hidden');
+      this.switchView('cierre');
+      this.showQuickToast('📊 Rol 4: Dueño activado — Panel de Control y Arqueo de Caja');
+    }
+  }
+
+  openDemoTutorialModal() {
+    const modal = document.getElementById('demoTutorialModal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  closeDemoTutorialModal() {
+    const modal = document.getElementById('demoTutorialModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  openMobileQRModal() {
+    const modal = document.getElementById('mobileQRModal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  closeMobileQRModal() {
+    const modal = document.getElementById('mobileQRModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  copyDemoLink() {
+    const url = 'https://app.dietetica-petshop.grupoinfinity.site/';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => {
+        const btnText = document.getElementById('copyLinkBtnText');
+        if (btnText) {
+          btnText.textContent = '¡Copiado en Portapapeles!';
+          setTimeout(() => {
+            btnText.textContent = 'Copiar Enlace Directo';
+          }, 2500);
+        }
+        this.showQuickToast('Enlace copiado al portapapeles');
+      }).catch(() => {
+        prompt('Copia el siguiente enlace:', url);
+      });
+    } else {
+      prompt('Copia el siguiente enlace:', url);
+    }
+  }
+
+  openDossierModal() {
+    const modal = document.getElementById('dossierModal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  closeDossierModal() {
+    const modal = document.getElementById('dossierModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  resetDemoData() {
+    if (confirm('¿Restablecer todos los datos de la demo a los valores originales de fábrica?')) {
+      localStorage.removeItem('natural_pos_products');
+      localStorage.removeItem('natural_pos_cart');
+      localStorage.removeItem('natural_pos_sales');
+      localStorage.removeItem('natural_pos_cash_register');
+
+      this.products = [...DEFAULT_PRODUCTS];
+      this.cart = [];
+      this.salesHistory = this.loadSalesHistory();
+      this.cashRegister = this.loadCashRegister();
+      this.discountPercent = 0;
+      this.currentOrderNumber = this.generateOrderNumber();
+
+      this.saveProducts();
+      this.saveCart();
+      this.renderProducts();
+      this.renderCart();
+      this.renderStockTable();
+      this.renderCierreCaja();
+      this.renderHistorialSales();
+      this.showQuickToast('✅ Datos de fábrica de la demo restablecidos con éxito');
+    }
+  }
+
+  toggleDemoBar(show) {
+    const bar = document.getElementById('demoTopBar');
+    const restoreBtn = document.getElementById('restoreDemoBarBtn');
+    if (bar) bar.classList.toggle('hidden', !show);
+    if (restoreBtn) restoreBtn.classList.toggle('hidden', show);
   }
 }
 

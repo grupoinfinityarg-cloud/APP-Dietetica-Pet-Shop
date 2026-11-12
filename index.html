@@ -93,8 +93,115 @@
 </head>
 <body class="bg-background text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed select-none">
 
+  <!-- BARRA SUPERIOR DE MODO DEMO INTERACTIVA (ESTILO GRUPO INFINITY / MDP BEACH) -->
+  <div id="demoTopBar" class="bg-[#18181B] text-white text-xs border-b border-white/10 px-3 py-2 z-50 sticky top-0 shadow-lg backdrop-blur-md">
+    <div class="max-w-[1720px] mx-auto flex flex-wrap items-center justify-between gap-2.5">
+      
+      <!-- Lado Izquierdo: Badge Modo Demo y Selector de Roles -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex items-center gap-1.5 font-extrabold text-[11px] uppercase tracking-wider text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2.5 py-1 rounded-lg">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span>Modo Demo</span>
+        </div>
+        <span class="hidden xl:inline text-white/60 text-[11px] font-medium">• Elegí un rol para experimentar la app:</span>
+        
+        <div class="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+          <button id="roleBtn_cliente" onclick="posApp.setDemoRole('cliente')" class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-white/80 hover:text-white hover:bg-white/10 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[15px]">person</span>
+            <span>1. Cliente (Catálogo QR)</span>
+          </button>
+          <button id="roleBtn_cajero" onclick="posApp.setDemoRole('cajero')" class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-primary text-white shadow-sm flex items-center gap-1">
+            <span class="material-symbols-outlined text-[15px]">point_of_sale</span>
+            <span>2. Cajero (POS & Balanza)</span>
+          </button>
+          <button id="roleBtn_stock" onclick="posApp.setDemoRole('stock')" class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-white/80 hover:text-white hover:bg-white/10 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[15px]">inventory_2</span>
+            <span>3. Stock & Precios</span>
+          </button>
+          <button id="roleBtn_dueno" onclick="posApp.setDemoRole('dueno')" class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-white/80 hover:text-white hover:bg-white/10 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[15px]">analytics</span>
+            <span>4. Dueño (Panel & Caja)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Lado Derecho: Acciones Comerciales para Cerrar la Venta -->
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <!-- Botón Contratar (WhatsApp Directo de Cierre) -->
+        <a 
+          href="https://wa.me/5492236779934?text=Hola!%20Vi%20la%20demo%20de%20Diet%C3%A9tica%20%26%20PetShop%20y%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20para%20implementarlo%20en%20mi%20comercio." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-sm transition-all hover:scale-105 active:scale-95"
+        >
+          <span class="material-symbols-outlined text-[16px]">chat</span>
+          <span>Contratar</span>
+        </a>
+
+        <!-- Botón Tutorial Demo (Speech de Venta y Comparativa de Planes) -->
+        <button 
+          onclick="posApp.openDemoTutorialModal()" 
+          class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all active:scale-95"
+          title="Ver Guía de Venta Comercial en 4 Pasos"
+        >
+          <span class="material-symbols-outlined text-[16px] text-amber-300">school</span>
+          <span>Tutorial Demo</span>
+        </button>
+
+        <!-- Botón Dossier Comercial PDF -->
+        <button 
+          onclick="posApp.openDossierModal()" 
+          class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all active:scale-95"
+          title="Ver Ficha Técnica Comercial"
+        >
+          <span class="material-symbols-outlined text-[16px] text-cyan-300">description</span>
+          <span>Dossier PDF</span>
+        </button>
+
+        <!-- Botón Probar en Celular (Código QR Interactivo) -->
+        <button 
+          onclick="posApp.openMobileQRModal()" 
+          class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all active:scale-95"
+          title="Escanear con Celular para probar en tiempo real"
+        >
+          <span class="material-symbols-outlined text-[16px] text-indigo-300">qr_code_2</span>
+          <span>Probar en Celular</span>
+        </button>
+
+        <!-- Botón Restablecer Datos de Demo -->
+        <button 
+          onclick="posApp.resetDemoData()" 
+          class="p-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/70 hover:text-white transition-all active:scale-95"
+          title="Restablecer datos de fábrica de la demo"
+        >
+          <span class="material-symbols-outlined text-[18px]">restart_alt</span>
+        </button>
+
+        <!-- Botón Ocultar Barra Demo -->
+        <button 
+          onclick="posApp.toggleDemoBar(false)" 
+          class="p-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/70 hover:text-white transition-all active:scale-95"
+          title="Ocultar barra de demo para vista limpia"
+        >
+          <span class="material-symbols-outlined text-[18px]">visibility_off</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Botón flotante para restaurar la barra demo cuando fue ocultada -->
+  <button 
+    id="restoreDemoBarBtn" 
+    onclick="posApp.toggleDemoBar(true)" 
+    class="hidden fixed top-3 right-3 z-50 px-3 py-1.5 rounded-full bg-slate-900/95 text-amber-400 border border-amber-400/40 text-xs font-bold shadow-2xl backdrop-blur-md flex items-center gap-1.5 hover:bg-slate-900 active:scale-95 transition-all cursor-pointer"
+  >
+    <span class="material-symbols-outlined text-[16px]">visibility</span>
+    <span>Modo Demo</span>
+  </button>
+
   <!-- TOP BAR CON IDENTIDAD, ESTADO Y NAVEGACIÓN -->
-  <header class="sticky top-0 z-40 bg-surface-container-lowest border-b border-surface-container-highest px-3 sm:px-6 py-2.5 flex items-center justify-between shadow-xs">
+  <header class="sticky top-[41px] z-40 bg-surface-container-lowest border-b border-surface-container-highest px-3 sm:px-6 py-2.5 flex items-center justify-between shadow-xs">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-xs">
         <span class="material-symbols-outlined text-[24px]">storefront</span>
@@ -157,6 +264,33 @@
     <!-- COLUMNA IZQUIERDA: CATÁLOGO TÁCTIL, BÚSQUEDA Y CATEGORÍAS (65% en Desktop/Tablet) -->
     <section class="flex-1 flex flex-col min-w-0">
       
+      <!-- BANNER DE BIENVENIDA / MODO CLIENTE (SOLO ACTIVO EN ROL 1 CLIENTE) -->
+      <div id="customerBanner" class="hidden mb-3 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-primary via-[#b34419] to-primary-container text-on-primary shadow-md flex items-center justify-between gap-3 animate-in">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+            <span class="material-symbols-outlined text-[26px]">shopping_basket</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-black text-sm sm:text-base leading-tight">¡Hola! Bienvenido a Natural Market &amp; Pet</span>
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-white text-primary">Carta QR</span>
+            </div>
+            <p class="text-xs text-white/90 font-medium mt-0.5">
+              Seleccioná tus productos, armá tu carrito y enviá tu pedido directamente por WhatsApp para retirar o delivery.
+            </p>
+          </div>
+        </div>
+        <a 
+          href="https://wa.me/5492236779934?text=Hola%20Natural%20Market!%20Estoy%20viendo%20la%20carta%20digital%20y%20tengo%20una%20consulta" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-secondary text-on-secondary font-extrabold text-xs shadow hover:bg-secondary/90 transition-all shrink-0 active:scale-95"
+        >
+          <span class="material-symbols-outlined text-[16px]">support_agent</span>
+          <span>Consultar al Local</span>
+        </a>
+      </div>
+
       <!-- BARRA DE BÚSQUEDA OMNICANAL (NOMBRE, CÓDIGO BARRAS, QR, VOZ) -->
       <div class="bg-surface-container-lowest rounded-2xl border border-surface-container-highest p-2.5 sm:p-3 mb-3 shadow-xs">
         <div class="flex items-center gap-2">
@@ -1069,6 +1203,242 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- 7. MODAL TUTORIAL DEMO (SPEECH DE VENTA Y PLANES COMERCIALES) -->
+  <div id="demoTutorialModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-on-background/70 backdrop-blur-xs overflow-y-auto">
+    <div class="w-full max-w-2xl bg-surface-container-lowest rounded-3xl shadow-2xl border border-surface-container-highest overflow-hidden my-6 animate-in">
+      
+      <!-- Header Tutorial -->
+      <div class="px-5 py-4 bg-surface-container-low flex items-center justify-between border-b border-surface-container-highest">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-amber-500/15 text-amber-600 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[24px]">school</span>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-on-surface text-base sm:text-lg">Guía Rápida para Demostración a Clientes</h3>
+            <p class="text-xs text-on-surface-variant font-medium">Aprendé a mostrar cada plan en 3 minutos exactos y cerrar la venta</p>
+          </div>
+        </div>
+        <button onclick="posApp.closeDemoTutorialModal()" class="p-1.5 rounded-full text-outline hover:bg-surface-container-high transition-colors">
+          <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+        
+        <!-- Tarjeta de Presentación / Speech en 4 pasos -->
+        <div class="bg-primary/5 border border-primary/20 rounded-2xl p-4 space-y-3">
+          <span class="text-xs font-black uppercase tracking-wider text-primary flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[18px]">timer</span>
+            <span>El Guión Maestro de Venta en 4 Pasos:</span>
+          </span>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest space-y-1">
+              <span class="font-bold text-primary block">Paso 1: Velocidad con Búsqueda por Voz</span>
+              <p class="text-on-surface-variant">
+                Mostrá cómo apretando el micrófono y diciendo <em>"Almendras"</em> o escaneando un código de barras el producto aparece en 0.2 segundos.
+              </p>
+            </div>
+
+            <div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest space-y-1">
+              <span class="font-bold text-primary block">Paso 2: Pesaje y Balanza Táctil</span>
+              <p class="text-on-surface-variant">
+                Tocá un producto a granel o usá el botón <strong>5kg 🔥</strong>: calcula el importe exacto al instante sin calculadora ni errores.
+              </p>
+            </div>
+
+            <div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest space-y-1">
+              <span class="font-bold text-primary block">Paso 3: Cobro Rápido y WhatsApp</span>
+              <p class="text-on-surface-variant">
+                Presioná <strong>Cobrar</strong>, mostrá el cálculo automático de vuelto en efectivo, Mercado Pago QR y envío de ticket digital al WhatsApp del cliente.
+              </p>
+            </div>
+
+            <div class="bg-surface-container-lowest p-3 rounded-xl border border-surface-container-highest space-y-1">
+              <span class="font-bold text-primary block">Paso 4: Arqueo Ciego de Caja</span>
+              <p class="text-on-surface-variant">
+                Cambiá al rol <strong>Dueño</strong>: mostrá el arqueo ciego donde el cajero cuenta el dinero sin ver los totales del sistema para evitar faltantes.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparativa de Planes Comerciales -->
+        <div>
+          <h4 class="text-xs font-black uppercase tracking-wider text-outline mb-3">Planes Comerciales de Implementación:</h4>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- Plan Lite -->
+            <div class="p-4 rounded-2xl bg-surface-container-low border border-surface-container-highest flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-surface-container-highest text-on-surface">Plan Inicial</span>
+                <h5 class="font-extrabold text-on-surface text-base mt-1.5">Comercio Lite</h5>
+                <p class="text-[11px] text-on-surface-variant mt-1">Para dietéticas o pet shops individuales con una sola caja.</p>
+                <ul class="text-xs text-on-surface-variant space-y-1.5 mt-3">
+                  <li class="flex items-center gap-1.5"><span class="text-secondary font-bold">✓</span> Terminal POS táctil</li>
+                  <li class="flex items-center gap-1.5"><span class="text-secondary font-bold">✓</span> Catálogo y búsqueda rápida</li>
+                  <li class="flex items-center gap-1.5"><span class="text-secondary font-bold">✓</span> Ticket digital por WhatsApp</li>
+                </ul>
+              </div>
+              <a href="https://wa.me/5492236779934?text=Hola!%20Quiero%20cotizar%20el%20Plan%20Inicial%20Lite%20para%20Diet%C3%A9tica/Petshop" target="_blank" class="w-full py-2 rounded-xl bg-surface-container-highest hover:bg-surface-container-high text-on-surface text-center font-bold text-xs transition-all">Cotizar Lite</a>
+            </div>
+
+            <!-- Plan Pro (Destacado) -->
+            <div class="p-4 rounded-2xl bg-primary/10 border-2 border-primary flex flex-col justify-between space-y-3 relative shadow-md">
+              <span class="absolute -top-2.5 right-3 text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-primary text-on-primary">Más Vendido 🔥</span>
+              <div>
+                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-primary/20 text-primary">Plan Pro</span>
+                <h5 class="font-extrabold text-on-surface text-base mt-1.5">Comercio Pro POS</h5>
+                <p class="text-[11px] text-on-surface-variant mt-1">La solución completa para maximizar velocidad y control diario.</p>
+                <ul class="text-xs text-on-surface-variant space-y-1.5 mt-3">
+                  <li class="flex items-center gap-1.5"><span class="text-primary font-bold">✓</span> Todo lo del Plan Inicial</li>
+                  <li class="flex items-center gap-1.5"><span class="text-primary font-bold">✓</span> Balanza digital táctil integrada</li>
+                  <li class="flex items-center gap-1.5"><span class="text-primary font-bold">✓</span> Control de stock y alerta reposición</li>
+                  <li class="flex items-center gap-1.5"><span class="text-primary font-bold">✓</span> Arqueo ciego de caja diario</li>
+                </ul>
+              </div>
+              <a href="https://wa.me/5492236779934?text=Hola!%20Quiero%20cotizar%20el%20Plan%20Pro%20(M%C3%A1s%20Vendido)%20para%20Diet%C3%A9tica/Petshop" target="_blank" class="w-full py-2 rounded-xl bg-primary hover:bg-primary-container text-on-primary text-center font-bold text-xs shadow transition-all">Cotizar Pro</a>
+            </div>
+
+            <!-- Plan Full -->
+            <div class="p-4 rounded-2xl bg-surface-container-low border border-surface-container-highest flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-surface-container-highest text-on-surface">Plan Red</span>
+                <h5 class="font-extrabold text-on-surface text-base mt-1.5">Multi-Sucursal</h5>
+                <p class="text-[11px] text-on-surface-variant mt-1">Para cadenas, franquicias o locales con múltiples terminales.</p>
+                <ul class="text-xs text-on-surface-variant space-y-1.5 mt-3">
+                  <li class="flex items-center gap-1.5"><span class="text-secondary font-bold">✓</span> Todo lo del Plan Pro</li>
+                  <li class="flex items-center gap-1.5"><span class="text-secondary font-bold">✓</span> Sincronización multi-caja en nube</li>
+                  <li class="flex items-center gap-1.5"><span class="text-secondary font-bold">✓</span> Tienda online / Pedidos QR</li>
+                  <li class="flex items-center gap-1.5"><span class="text-secondary font-bold">✓</span> Soporte VIP prioritario 24/7</li>
+                </ul>
+              </div>
+              <a href="https://wa.me/5492236779934?text=Hola!%20Quiero%20cotizar%20el%20Plan%20Multi-Sucursal%20para%20Diet%C3%A9tica/Petshop" target="_blank" class="w-full py-2 rounded-xl bg-surface-container-highest hover:bg-surface-container-high text-on-surface text-center font-bold text-xs transition-all">Cotizar Red</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Modal -->
+      <div class="px-5 py-3.5 bg-surface-container-low border-t border-surface-container-highest flex items-center justify-between">
+        <span class="text-xs text-on-surface-variant font-medium">Asesoramiento comercial directo por Grupo Infinity</span>
+        <button onclick="posApp.closeDemoTutorialModal()" class="px-4 py-2 rounded-xl bg-surface-container-highest hover:bg-surface-container-high font-bold text-xs transition-all">
+          Entendido, cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. MODAL PROBAR EN CELULAR (CÓDIGO QR EN TIEMPO REAL) -->
+  <div id="mobileQRModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-background/70 backdrop-blur-xs">
+    <div class="w-full max-w-sm bg-surface-container-lowest rounded-3xl shadow-2xl border border-surface-container-highest p-6 text-center space-y-4 animate-in">
+      <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 text-indigo-600 mx-auto flex items-center justify-center">
+        <span class="material-symbols-outlined text-[28px]">qr_code_2</span>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-extrabold text-on-surface">Escaneá con tu Celular</h3>
+        <p class="text-xs text-on-surface-variant mt-0.5">
+          Apuntá con la cámara de tu teléfono para experimentar la app directamente en tu móvil como PWA instalable.
+        </p>
+      </div>
+
+      <!-- Contenedor del Código QR generado dinámicamente -->
+      <div class="p-4 bg-white rounded-2xl shadow-inner border border-surface-container-highest inline-block mx-auto">
+        <img 
+          id="qrDemoImage"
+          src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://app.dietetica-petshop.grupoinfinity.site/" 
+          alt="QR Demo Dietética & PetShop" 
+          class="w-48 h-48 mx-auto"
+        />
+      </div>
+
+      <div class="space-y-2 pt-1">
+        <button 
+          onclick="posApp.copyDemoLink()" 
+          class="w-full h-11 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow active:scale-95 transition-all"
+        >
+          <span class="material-symbols-outlined text-[18px]">link</span>
+          <span id="copyLinkBtnText">Copiar Enlace Directo</span>
+        </button>
+
+        <button 
+          onclick="posApp.closeMobileQRModal()" 
+          class="w-full py-2 text-xs font-bold text-outline hover:text-on-surface transition-colors"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. MODAL DOSSIER COMERCIAL & TÉCNICO -->
+  <div id="dossierModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-on-background/70 backdrop-blur-xs">
+    <div class="w-full max-w-xl bg-surface-container-lowest rounded-3xl shadow-2xl border border-surface-container-highest overflow-hidden animate-in">
+      <div class="px-5 py-4 bg-surface-container-low flex items-center justify-between border-b border-surface-container-highest">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-cyan-500/15 text-cyan-600 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[24px]">description</span>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-on-surface text-base">Dossier Comercial &amp; Técnico</h3>
+            <p class="text-xs text-on-surface-variant font-medium">Ficha técnica oficial de Natural Market &amp; Pet POS</p>
+          </div>
+        </div>
+        <button onclick="posApp.closeDossierModal()" class="p-1.5 rounded-full text-outline hover:bg-surface-container-high transition-colors">
+          <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-4 max-h-[70vh] overflow-y-auto text-xs leading-relaxed text-on-surface">
+        <div class="bg-surface-container-low p-4 rounded-2xl border border-surface-container-highest space-y-2">
+          <span class="font-extrabold text-primary text-sm block">Arquitectura &amp; Compatibilidad</span>
+          <p class="text-on-surface-variant">
+            Sistema desarrollado en arquitectura PWA (Progressive Web App). No requiere instalaciones complejas ni servidores locales dedicados. Funciona en Windows, Android, iOS, tablets táctiles y PCs de escritorio.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container-highest">
+            <span class="font-bold text-secondary block">⚖ Pesaje Digital Táctil</span>
+            <p class="text-on-surface-variant mt-1 text-[11px]">Compatibilidad con balanzas electrónicas e interfaz con chips de peso rápido (100g a 10kg).</p>
+          </div>
+          <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container-highest">
+            <span class="font-bold text-secondary block">📶 Operación Offline PWA</span>
+            <p class="text-on-surface-variant mt-1 text-[11px]">Sigue operando aún si se corta internet. Sincronización automática de ventas al restablecerse.</p>
+          </div>
+          <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container-highest">
+            <span class="font-bold text-secondary block">🧾 Tickets WhatsApp</span>
+            <p class="text-on-surface-variant mt-1 text-[11px]">Ahorro 100% en rollos térmicos. Fidelización directa en la agenda de WhatsApp del cliente.</p>
+          </div>
+          <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container-highest">
+            <span class="font-bold text-secondary block">🔒 Arqueo Ciego</span>
+            <p class="text-on-surface-variant mt-1 text-[11px]">Cierre de turno con control estricto de efectivo para proteger la rentabilidad del dueño.</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-800 text-xs">
+          <strong>¿Querés implementarlo en tu negocio?</strong> La puesta en marcha se realiza en menos de 24 horas con carga inicial de tus productos y capacitación incluida.
+        </div>
+      </div>
+
+      <div class="px-5 py-3.5 bg-surface-container-low border-t border-surface-container-highest flex items-center justify-between">
+        <a 
+          href="https://wa.me/5492236779934?text=Hola!%20Le%C3%AD%20el%20dossier%20comercial%20de%20Diet%C3%A9tica%20%26%20PetShop%20y%20quiero%20solicitar%20presupuesto" 
+          target="_blank" 
+          class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow transition-all flex items-center gap-1.5"
+        >
+          <span class="material-symbols-outlined text-[16px]">chat</span>
+          <span>Contactar a un Asesor</span>
+        </a>
+        <button onclick="posApp.closeDossierModal()" class="px-4 py-2 rounded-xl bg-surface-container-highest hover:bg-surface-container-high font-bold text-xs transition-all">
+          Cerrar
+        </button>
+      </div>
     </div>
   </div>
 
