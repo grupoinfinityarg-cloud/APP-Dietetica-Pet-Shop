@@ -232,6 +232,9 @@ class NaturalPOSApp {
     this.cashAmountGiven = 0;
     this.demoRole = 'cajero';
     this.isCustomerMode = false;
+    this.storeName = 'Natural Market & Pet';
+    this.storeWhatsApp = '5492236779934';
+    this.storeSlogan = 'Nutrición animal, semillas a granel y suplementos saludables';
 
     // Caja turno inicial
     this.cashRegister = this.loadCashRegister();
@@ -247,14 +250,41 @@ class NaturalPOSApp {
     this.updateClock();
     setInterval(() => this.updateClock(), 1000);
 
-    // Parámetros URL para iniciar directamente en un rol o vista
+    // Parámetros URL para iniciar directamente en un rol, vista o datos personalizados
     const urlParams = new URLSearchParams(window.location.search);
     const roleParam = urlParams.get('role');
     const viewParam = urlParams.get('view');
+    const negocioParam = urlParams.get('negocio');
+    const sloganParam = urlParams.get('slogan');
+    const waParam = urlParams.get('wa');
+
+    if (waParam) {
+      this.storeWhatsApp = waParam.replace(/\D/g, '');
+      const waLinks = [
+        document.getElementById('clientHeaderWhatsAppBtn'),
+        document.getElementById('bannerWhatsAppBtn')
+      ];
+      waLinks.forEach(link => {
+        if (link) link.href = `https://wa.me/${this.storeWhatsApp}?text=${encodeURIComponent(`Hola! Estoy viendo el catálogo de ${this.storeName} y tengo una consulta`)}`;
+      });
+    }
+
+    if (negocioParam) {
+      this.storeName = negocioParam;
+      document.querySelectorAll('.store-name-text').forEach(el => el.textContent = negocioParam);
+    }
+
+    if (sloganParam) {
+      this.storeSlogan = sloganParam;
+      document.querySelectorAll('.store-slogan-text').forEach(el => el.textContent = sloganParam);
+    }
+
     if (roleParam && ['cliente', 'cajero', 'stock', 'dueno'].includes(roleParam)) {
       this.setDemoRole(roleParam);
     } else if (viewParam) {
       this.switchView(viewParam);
+    } else {
+      this.setDemoRole('cajero');
     }
   }
 
@@ -722,6 +752,9 @@ class NaturalPOSApp {
     const cartHtml = this.generateCartItemsHtml();
     if (itemsListEl) itemsListEl.innerHTML = cartHtml;
     if (mobileCartItemsListEl) mobileCartItemsListEl.innerHTML = cartHtml;
+
+    // Actualizar badges y contadores del modo cliente
+    this.updateClientBadges();
   }
 
   generateCartItemsHtml() {
@@ -818,7 +851,7 @@ class NaturalPOSApp {
     this.showQuickToast(percent > 0 ? `Descuento ${percent}% aplicado` : 'Descuento quitado');
   }
 
-  // MODAL BALANZA DIGITAL
+  // MODAL BALANZA DIGITAL & PESAJE FRACCIONADO
   openScaleModal(product, initialGrams = 350) {
     this.weighingProduct = product;
     this.scaleWeightGrams = initialGrams;
@@ -826,9 +859,19 @@ class NaturalPOSApp {
     const modal = document.getElementById('scaleModal');
     const titleEl = document.getElementById('scaleModalProductName');
     const priceEl = document.getElementById('scaleModalBasePrice');
+    const modalTitle = document.getElementById('scaleModalTitle');
+    const modalSubtitle = document.getElementById('scaleModalSubtitle');
     
     if (titleEl) titleEl.textContent = product.name;
     if (priceEl) priceEl.textContent = `${this.formatMoney(product.price)} /kg`;
+
+    if (this.isCustomerMode) {
+      if (modalTitle) modalTitle.textContent = 'Elegir Cantidad a Granel';
+      if (modalSubtitle) modalSubtitle.innerHTML = '<span class="text-secondary font-bold">🌾 Pesaje exacto y fraccionado</span>';
+    } else {
+      if (modalTitle) modalTitle.textContent = 'Balanza Digital';
+      if (modalSubtitle) modalSubtitle.innerHTML = '<span class="w-2 h-2 rounded-full bg-secondary inline-block animate-pulse"></span> Puerto COM3 Conectada (0.000 kg)';
+    }
 
     this.updateScaleDisplay();
     if (modal) modal.classList.remove('hidden');
@@ -877,7 +920,10 @@ class NaturalPOSApp {
 
     if (weightEl) weightEl.textContent = this.scaleWeightGrams;
     if (priceEl) priceEl.textContent = this.formatMoney(subtotal);
-    if (btnLabelEl) btnLabelEl.textContent = `Agregar a la Venta (${this.formatMoney(subtotal)})`;
+    if (btnLabelEl) {
+      const actionText = this.isCustomerMode ? 'Agregar a mi Pedido' : 'Agregar a la Venta';
+      btnLabelEl.textContent = `${actionText} (${this.formatMoney(subtotal)})`;
+    }
   }
 
   confirmScaleAdd() {
@@ -1765,28 +1811,286 @@ class NaturalPOSApp {
       }
     });
 
+    // Gestión de clases en <body> para alternar la vista Cliente vs Staff (Cajero / Dueño)
+    document.body.classList.remove('role-cliente', 'role-cajero', 'role-stock', 'role-dueno');
+    document.body.classList.add(`role-${role}`);
+
     const customerBanner = document.getElementById('customerBanner');
 
     if (role === 'cliente') {
       this.isCustomerMode = true;
       if (customerBanner) customerBanner.classList.remove('hidden');
       this.switchView('pos');
-      this.showQuickToast('👤 Rol 1: Cliente activado — Modo Catálogo & Auto-pedido QR');
+      this.updateClientBadges();
+      this.showQuickToast('👤 Rol 1: Modo Cliente — Catálogo limpio & Pedidos por WhatsApp');
     } else if (role === 'cajero') {
       this.isCustomerMode = false;
       if (customerBanner) customerBanner.classList.add('hidden');
       this.switchView('pos');
-      this.showQuickToast('💳 Rol 2: Cajero activado — Terminal POS & Balanza');
+      this.updateClientBadges();
+      this.showQuickToast('💳 Rol 2: Modo Cajero — Terminal POS & Balanza');
     } else if (role === 'stock') {
       this.isCustomerMode = false;
       if (customerBanner) customerBanner.classList.add('hidden');
       this.switchView('stock');
-      this.showQuickToast('📦 Rol 3: Depósito & Stock activado — Control de Precios e Inventario');
+      this.updateClientBadges();
+      this.showQuickToast('📦 Rol 3: Depósito & Stock — Control de Precios e Inventario');
     } else if (role === 'dueno') {
       this.isCustomerMode = false;
       if (customerBanner) customerBanner.classList.add('hidden');
       this.switchView('cierre');
-      this.showQuickToast('📊 Rol 4: Dueño activado — Panel de Control y Arqueo de Caja');
+      this.updateClientBadges();
+      this.showQuickToast('📊 Rol 4: Dueño del Comercio — Panel y Cierre de Caja');
+    }
+  }
+
+  // --- MÉTODOS DEL MODO CLIENTE & PEDIDOS POR WHATSAPP ---
+  openClientCartModal() {
+    this.renderClientCart();
+    const modal = document.getElementById('clientCartModal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  closeClientCartModal() {
+    const modal = document.getElementById('clientCartModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  handleCartBarClick() {
+    if (this.isCustomerMode) {
+      this.openClientCartModal();
+    } else {
+      this.openMobileCart();
+    }
+  }
+
+  handleDeliveryTypeChange(value) {
+    const addressRow = document.getElementById('clientAddressRow');
+    if (addressRow) {
+      addressRow.classList.toggle('hidden', value !== 'delivery');
+    }
+    this.updateClientOrderTotal();
+  }
+
+  updateClientOrderTotal() {
+    const totalEl = document.getElementById('clientOrderTotalDisplay');
+    const noteEl = document.getElementById('clientOrderDiscountNote');
+    const paymentPrefRadio = document.querySelector('input[name="clientPaymentPref"]:checked');
+
+    const subtotal = this.cart.reduce((sum, i) => sum + i.subtotal, 0);
+    const isCash = paymentPrefRadio ? paymentPrefRadio.value.includes('Efectivo') : true;
+    const discount = isCash ? Math.round(subtotal * 0.10) : 0;
+    const total = Math.max(0, subtotal - discount);
+
+    if (totalEl) totalEl.textContent = this.formatMoney(total);
+    if (noteEl) {
+      if (isCash && subtotal > 0) {
+        noteEl.textContent = `Ahorrás ${this.formatMoney(discount)} (10% OFF abonando en efectivo)`;
+        noteEl.className = 'text-[11px] text-secondary font-bold';
+      } else {
+        noteEl.textContent = 'Precio final para transferencias bancarias o Mercado Pago';
+        noteEl.className = 'text-[11px] text-on-surface-variant font-medium';
+      }
+    }
+  }
+
+  renderClientCart() {
+    const container = document.getElementById('clientCartItemsContainer');
+    if (!container) return;
+
+    if (this.cart.length === 0) {
+      container.innerHTML = `
+        <div class="py-12 text-center text-outline">
+          <div class="w-16 h-16 rounded-3xl bg-surface-container-high/60 flex items-center justify-center mx-auto mb-3 text-outline">
+            <span class="material-symbols-outlined text-[32px]">shopping_basket</span>
+          </div>
+          <h4 class="font-extrabold text-on-surface text-base">Tu pedido está vacío</h4>
+          <p class="text-xs text-on-surface-variant mt-1 max-w-xs mx-auto">
+            Explorá el catálogo y agregá frutos secos a granel, harinas, alimentos balanceados o accesorios.
+          </p>
+          <button onclick="posApp.closeClientCartModal()" class="mt-4 px-4 py-2 rounded-xl bg-primary text-white font-bold text-xs hover:bg-primary-container transition-all cursor-pointer">
+            + Explorar Catálogo
+          </button>
+        </div>
+      `;
+      this.updateClientOrderTotal();
+      return;
+    }
+
+    container.innerHTML = this.cart.map((item, idx) => {
+      const prod = this.products.find(p => p.id === item.id);
+      const img = prod ? prod.image : './img/almendras.jpg';
+      const isBulk = item.type === 'bulk';
+      const qtyLabel = isBulk ? (item.weightGrams >= 1000 ? `${(item.weightGrams / 1000).toFixed(2)} kg` : `${item.weightGrams}g`) : `${item.quantity} un`;
+
+      return `
+        <div class="bg-surface-container-low p-3 rounded-2xl border border-surface-container-highest flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0 flex-1">
+            <img src="${img}" alt="${item.name}" class="w-12 h-12 rounded-xl object-cover shrink-0 bg-surface-container shadow-xs"/>
+            <div class="min-w-0">
+              <h4 class="font-extrabold text-xs sm:text-sm text-on-surface truncate leading-tight">${item.name}</h4>
+              <div class="flex items-center gap-1.5 text-[11px] text-on-surface-variant mt-0.5 font-medium">
+                <span class="text-primary font-bold">${this.formatMoney(item.unitPrice)}</span>
+                <span>•</span>
+                <span>${qtyLabel}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <!-- Controles de cantidad -->
+            <div class="flex items-center bg-surface-container-lowest border border-surface-container-highest rounded-xl p-0.5">
+              <button onclick="posApp.modifyClientItemQty(${idx}, -1)" class="w-7 h-7 rounded-lg hover:bg-surface-container-high text-on-surface flex items-center justify-center text-xs font-black transition-colors" title="Disminuir">
+                <span class="material-symbols-outlined text-[16px]">remove</span>
+              </button>
+              <span class="px-2 text-xs font-black text-on-surface tabular-nums">
+                ${isBulk ? qtyLabel : item.quantity}
+              </span>
+              <button onclick="posApp.modifyClientItemQty(${idx}, 1)" class="w-7 h-7 rounded-lg hover:bg-surface-container-high text-on-surface flex items-center justify-center text-xs font-black transition-colors" title="Aumentar">
+                <span class="material-symbols-outlined text-[16px]">add</span>
+              </button>
+            </div>
+
+            <div class="text-right min-w-[65px]">
+              <span class="font-black text-xs sm:text-sm text-primary tabular-nums block">${this.formatMoney(item.subtotal)}</span>
+            </div>
+
+            <button onclick="posApp.removeClientItem(${idx})" class="p-1.5 text-outline hover:text-error rounded-lg hover:bg-surface-container-high transition-colors" title="Eliminar ítem">
+              <span class="material-symbols-outlined text-[18px]">delete</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    this.updateClientOrderTotal();
+  }
+
+  modifyClientItemQty(idx, delta) {
+    if (!this.cart[idx]) return;
+    const item = this.cart[idx];
+    if (item.type === 'unit') {
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        this.cart.splice(idx, 1);
+      } else {
+        item.subtotal = item.quantity * item.unitPrice;
+      }
+    } else if (item.type === 'bulk') {
+      const currentGrams = item.weightGrams || 250;
+      const step = currentGrams >= 1000 ? 500 : 100;
+      const newGrams = currentGrams + (delta * step);
+      if (newGrams <= 0) {
+        this.cart.splice(idx, 1);
+      } else {
+        item.weightGrams = newGrams;
+        item.subtotal = Math.round((item.unitPrice * newGrams) / 1000);
+      }
+    }
+    this.saveCart();
+    this.renderCart();
+    this.renderClientCart();
+    this.updateClientBadges();
+  }
+
+  removeClientItem(idx) {
+    if (!this.cart[idx]) return;
+    const name = this.cart[idx].name;
+    this.cart.splice(idx, 1);
+    this.saveCart();
+    this.renderCart();
+    this.renderClientCart();
+    this.updateClientBadges();
+    this.showQuickToast(`Eliminado: ${name}`);
+  }
+
+  sendClientOrderWhatsApp() {
+    if (this.cart.length === 0) {
+      alert('Tu carrito está vacío. Agregá al menos un producto para enviar tu pedido.');
+      return;
+    }
+
+    const nameInput = document.getElementById('clientOrderCustomerName');
+    const deliveryTypeSelect = document.getElementById('clientOrderDeliveryType');
+    const addressInput = document.getElementById('clientOrderAddress');
+    const notesInput = document.getElementById('clientOrderNotes');
+    const paymentPrefRadio = document.querySelector('input[name="clientPaymentPref"]:checked');
+
+    const customerName = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Cliente Web';
+    const deliveryType = deliveryTypeSelect ? deliveryTypeSelect.value : 'retiro';
+    const address = addressInput ? addressInput.value.trim() : '';
+    const paymentPref = paymentPrefRadio ? paymentPrefRadio.value : 'Efectivo (10% Desc.)';
+    const notes = notesInput ? notesInput.value.trim() : '';
+
+    const subtotal = this.cart.reduce((sum, item) => sum + item.subtotal, 0);
+    const hasCashDiscount = paymentPref.includes('Efectivo');
+    const discount = hasCashDiscount ? Math.round(subtotal * 0.10) : 0;
+    const total = Math.max(0, subtotal - discount);
+
+    let msg = `🌿 *NUEVO PEDIDO - ${this.storeName.toUpperCase()}*\n`;
+    msg += `--------------------------------\n`;
+    msg += `👤 *Cliente:* ${customerName}\n`;
+    if (deliveryType === 'delivery') {
+      msg += `🛵 *Entrega:* Envío a Domicilio\n`;
+      msg += `📍 *Dirección:* ${address || 'A coordinar por chat'}\n`;
+    } else {
+      msg += `🏪 *Entrega:* Retiro en el Local\n`;
+    }
+    msg += `💳 *Pago estimado:* ${paymentPref}\n`;
+    msg += `--------------------------------\n`;
+    msg += `🛒 *DETALLE DEL PEDIDO:*\n`;
+    this.cart.forEach(item => {
+      const isBulk = item.type === 'bulk';
+      const qtyStr = isBulk ? (item.weightGrams >= 1000 ? `${(item.weightGrams / 1000).toFixed(2)} kg` : `${item.weightGrams}g`) : `${item.quantity} un`;
+      msg += `• ${item.name} (${qtyStr}): ${this.formatMoney(item.subtotal)}\n`;
+    });
+    msg += `--------------------------------\n`;
+    msg += `Subtotal: ${this.formatMoney(subtotal)}\n`;
+    if (discount > 0) {
+      msg += `Descuento Efectivo (10%): -${this.formatMoney(discount)}\n`;
+    }
+    msg += `💰 *TOTAL ESTIMADO: ${this.formatMoney(total)}*\n`;
+    if (notes) {
+      msg += `--------------------------------\n`;
+      msg += `📝 *Aclaraciones:* ${notes}\n`;
+    }
+    msg += `--------------------------------\n`;
+    msg += `¡Hola! Quiero confirmar este pedido realizado desde el catálogo digital. ¿Tienen disponibilidad? 🌱🐾`;
+
+    const targetWhatsApp = this.storeWhatsApp || '5492236779934';
+    const url = `https://api.whatsapp.com/send?phone=${targetWhatsApp}&text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+
+    this.closeClientCartModal();
+    this.showQuickToast('📲 ¡Pedido enviado a WhatsApp con éxito!');
+  }
+
+  updateClientBadges() {
+    const totalCount = this.cart.reduce((sum, i) => sum + (i.type === 'unit' ? i.quantity : 1), 0);
+    const subtotal = this.cart.reduce((sum, i) => sum + i.subtotal, 0);
+
+    const headerBadge = document.getElementById('headerClientCartBadge');
+    const floatingBadge = document.getElementById('floatingClientCartBadge');
+    const floatingTotal = document.getElementById('floatingClientCartTotal');
+    const mobileBadge = document.getElementById('mobileCartBadge');
+    const mobileTotal = document.getElementById('mobileCartTotal');
+    const mobileCount = document.getElementById('mobileCartCount');
+
+    if (headerBadge) headerBadge.textContent = totalCount;
+    if (floatingBadge) floatingBadge.textContent = totalCount;
+    if (floatingTotal) floatingTotal.textContent = this.formatMoney(subtotal);
+    if (mobileBadge) mobileBadge.textContent = totalCount;
+    if (mobileTotal) mobileTotal.textContent = this.formatMoney(subtotal);
+    if (mobileCount) mobileCount.textContent = `• ${totalCount} ítems`;
+
+    // Botón flotante desktop para cliente
+    const desktopFloating = document.getElementById('desktopFloatingClientCart');
+    if (desktopFloating) {
+      if (this.isCustomerMode && this.cart.length > 0) {
+        desktopFloating.classList.remove('hidden');
+      } else {
+        desktopFloating.classList.add('hidden');
+      }
     }
   }
 

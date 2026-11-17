@@ -89,6 +89,32 @@
     .tabular-nums {
       font-variant-numeric: tabular-nums;
     }
+
+    /* --- GESTIÓN DE ROLES: MODO CLIENTE vs MODO STAFF (CAJERO / DUEÑO) --- */
+    body.role-cliente .staff-element {
+      display: none !important;
+    }
+    body:not(.role-cliente) .client-element {
+      display: none !important;
+    }
+    body.role-cliente #mobileCartBar {
+      bottom: 1rem !important;
+    }
+    @media (min-width: 1024px) {
+      body.role-cliente #productGrid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+    }
+    @media (min-width: 1280px) {
+      body.role-cliente #productGrid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      }
+    }
+    @media (min-width: 1536px) {
+      body.role-cliente #productGrid {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-background text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed select-none">
@@ -208,7 +234,7 @@
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="text-base sm:text-lg font-extrabold text-on-surface tracking-tight leading-none">
+          <h1 class="store-name-text text-base sm:text-lg font-extrabold text-on-surface tracking-tight leading-none">
             Natural Market &amp; Pet
           </h1>
           <span class="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-secondary-container text-on-secondary-container">
@@ -216,14 +242,20 @@
             En línea
           </span>
         </div>
-        <p class="text-xs text-on-surface-variant font-medium mt-0.5">
+        <!-- Info Cajero (Solo Staff) -->
+        <p id="headerStaffInfo" class="staff-element text-xs text-on-surface-variant font-medium mt-0.5">
           Caja 01 • Turno Mañana • <span class="text-on-surface font-semibold">Franco R.</span>
+        </p>
+        <!-- Info Catálogo (Solo Cliente) -->
+        <p id="headerClientInfo" class="client-element text-xs text-secondary font-bold mt-0.5 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-secondary inline-block animate-pulse"></span>
+          <span>Catálogo Digital &amp; Pedidos por WhatsApp</span>
         </p>
       </div>
     </div>
 
-    <!-- Navegación Central (Desktop / Tablet) -->
-    <nav class="hidden md:flex items-center bg-surface-container-low p-1 rounded-xl border border-surface-container-highest">
+    <!-- Navegación Central Staff (Desktop / Tablet) - OCULTA PARA CLIENTE -->
+    <nav id="staffNavDesktop" class="staff-element hidden md:flex items-center bg-surface-container-low p-1 rounded-xl border border-surface-container-highest">
       <button id="navBtn_pos" onclick="posApp.switchView('pos')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-primary text-on-primary flex items-center gap-1.5">
         <span class="material-symbols-outlined text-[18px]">point_of_sale</span> Terminal POS
       </button>
@@ -238,8 +270,33 @@
       </button>
     </nav>
 
-    <!-- Estado Balanza & Atajos Rápidos -->
-    <div class="flex items-center gap-2">
+    <!-- Acciones en Modo Cliente (WhatsApp Directo + Botón de Mi Pedido) -->
+    <div id="clientHeaderActions" class="client-element flex items-center gap-2">
+      <a 
+        id="clientHeaderWhatsAppBtn"
+        href="https://wa.me/5492236779934?text=Hola%20Natural%20Market!%20Estoy%20viendo%20el%20cat%C3%A1logo%20y%20tengo%20una%20consulta" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-secondary-container text-on-secondary-container hover:bg-secondary hover:text-white font-extrabold text-xs transition-all active:scale-95 border border-secondary/30 shadow-xs"
+        title="Enviar WhatsApp directo al negocio"
+      >
+        <span class="material-symbols-outlined text-[17px] text-secondary">chat</span>
+        <span>WhatsApp</span>
+      </a>
+
+      <button 
+        onclick="posApp.openClientCartModal()" 
+        class="relative flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-primary hover:bg-primary-container text-white font-extrabold text-xs shadow-sm active:scale-95 transition-all cursor-pointer"
+        title="Abrir tu carrito y confirmar pedido"
+      >
+        <span class="material-symbols-outlined text-[19px]">shopping_cart</span>
+        <span class="hidden sm:inline">Mi Pedido</span>
+        <span id="headerClientCartBadge" class="px-1.5 py-0.5 rounded-full bg-white text-primary text-[10px] font-black tabular-nums">0</span>
+      </button>
+    </div>
+
+    <!-- Estado Balanza & Atajos Rápidos - SOLO STAFF (Cajero / Dueño) -->
+    <div id="staffHeaderTools" class="staff-element flex items-center gap-2">
       <!-- Indicador Balanza Conectada -->
       <button onclick="posApp.openScaleModal(posApp.products[0])" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface-container-low border border-surface-container-highest text-primary hover:bg-surface-container-high transition-all active:scale-95" title="Balanza Digital Integrada (Toledo)">
         <span class="material-symbols-outlined text-[18px] text-secondary">scale</span>
@@ -265,22 +322,23 @@
     <section class="flex-1 flex flex-col min-w-0">
       
       <!-- BANNER DE BIENVENIDA / MODO CLIENTE (SOLO ACTIVO EN ROL 1 CLIENTE) -->
-      <div id="customerBanner" class="hidden mb-3 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-primary via-[#b34419] to-primary-container text-on-primary shadow-md flex items-center justify-between gap-3 animate-in">
+      <div id="customerBanner" class="client-element mb-3 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-primary via-[#b34419] to-primary-container text-on-primary shadow-md flex items-center justify-between gap-3 animate-in">
         <div class="flex items-center gap-3">
           <div class="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
             <span class="material-symbols-outlined text-[26px]">shopping_basket</span>
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-black text-sm sm:text-base leading-tight">¡Hola! Bienvenido a Natural Market &amp; Pet</span>
+              <span class="font-black text-sm sm:text-base leading-tight">¡Hola! Bienvenido a <span class="store-name-text">Natural Market &amp; Pet</span></span>
               <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-white text-primary">Carta QR</span>
             </div>
             <p class="text-xs text-white/90 font-medium mt-0.5">
-              Seleccioná tus productos, armá tu carrito y enviá tu pedido directamente por WhatsApp para retirar o delivery.
+              Seleccioná tus productos, armá tu pedido y envialo directamente por WhatsApp para retirar o entrega a domicilio.
             </p>
           </div>
         </div>
         <a 
+          id="bannerWhatsAppBtn"
           href="https://wa.me/5492236779934?text=Hola%20Natural%20Market!%20Estoy%20viendo%20la%20carta%20digital%20y%20tengo%20una%20consulta" 
           target="_blank" 
           rel="noopener noreferrer"
@@ -308,7 +366,7 @@
 
             <!-- Botones a la derecha del input: Escáner y Micrófono de Voz -->
             <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-              <!-- Botón Búsqueda por Voz -->
+              <!-- Botón Búsqueda por Voz (Para Todos) -->
               <button 
                 id="voiceSearchBtn" 
                 onclick="posApp.toggleVoiceSearch()" 
@@ -319,11 +377,11 @@
                 <span class="material-symbols-outlined text-[20px]">mic</span>
               </button>
 
-              <!-- Botón Escáner Rápido -->
+              <!-- Botón Escáner Rápido (Staff Only) -->
               <button 
                 onclick="posApp.openScannerModal()" 
                 type="button" 
-                class="w-8 h-8 rounded-lg text-primary bg-primary-fixed hover:bg-primary-fixed-dim transition-all flex items-center justify-center active:scale-95" 
+                class="staff-element w-8 h-8 rounded-lg text-primary bg-primary-fixed hover:bg-primary-fixed-dim transition-all flex items-center justify-center active:scale-95" 
                 title="Escanear Código de Barras o QR"
               >
                 <span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
@@ -337,8 +395,8 @@
             <span class="hidden sm:inline">Borrar</span>
           </button>
 
-          <!-- Botón Ítem Rápido / Libre (Venta rápida fraccionada o a medida) -->
-          <button onclick="posApp.openQuickItemModal()" class="h-10 px-3 bg-secondary-container text-on-secondary-container hover:bg-secondary hover:text-on-secondary border border-secondary/30 rounded-xl text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all shadow-xs" title="Vender ítem libre, fraccionado o producto especial">
+          <!-- Botón Ítem Rápido / Libre (Staff Only) -->
+          <button id="quickItemBtn" onclick="posApp.openQuickItemModal()" class="staff-element h-10 px-3 bg-secondary-container text-on-secondary-container hover:bg-secondary hover:text-on-secondary border border-secondary/30 rounded-xl text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all shadow-xs" title="Vender ítem libre, fraccionado o producto especial">
             <span class="material-symbols-outlined text-[18px]">add_box</span>
             <span class="hidden sm:inline">+ Ítem Rápido</span>
           </button>
@@ -399,8 +457,8 @@
       </div>
     </section>
 
-    <!-- COLUMNA DERECHA: TICKET / CARRITO DE VENTA ACTIVO (35% en Desktop/Tablet) -->
-    <aside class="hidden lg:flex w-[370px] xl:w-[410px] flex-col bg-surface-container-lowest rounded-2xl border border-surface-container-highest shadow-sm overflow-hidden h-[calc(100vh-100px)] sticky top-[72px]">
+    <!-- COLUMNA DERECHA: TICKET / CARRITO DE VENTA ACTIVO (35% en Desktop/Tablet) - SOLO STAFF (Cajero / Dueño) -->
+    <aside id="posCashierTicket" class="staff-element hidden lg:flex w-[370px] xl:w-[410px] flex-col bg-surface-container-lowest rounded-2xl border border-surface-container-highest shadow-sm overflow-hidden h-[calc(100vh-100px)] sticky top-[72px]">
       
       <!-- Encabezado de Ticket -->
       <div class="p-3.5 bg-surface-container-low border-b border-surface-container-highest flex items-center justify-between">
@@ -614,17 +672,20 @@
     </div>
   </section>
 
-  <!-- FLOATING MINI-CART SUMMARY BAR (MOBILE ONLY) -->
+  <!-- FLOATING MINI-CART SUMMARY BAR (MOBILE ONLY / CLIENTE & CAJERO) -->
   <div id="mobileCartBar" class="hidden lg:hidden fixed bottom-16 left-0 right-0 z-40 px-3 pointer-events-none">
     <div class="pointer-events-auto bg-inverse-surface text-inverse-on-surface rounded-2xl p-2.5 sm:p-3 shadow-2xl flex items-center justify-between border border-white/10 backdrop-blur-md transition-all active:scale-[0.99]">
-      <div onclick="posApp.openMobileCart()" class="flex items-center gap-2.5 cursor-pointer flex-1 min-w-0 pr-2" title="Toca para ver y editar productos de la orden">
+      <div onclick="posApp.handleCartBarClick()" class="flex items-center gap-2.5 cursor-pointer flex-1 min-w-0 pr-2" title="Toca para ver y confirmar pedido">
         <div class="relative w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shrink-0 shadow-sm">
           <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
           <span id="mobileCartBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-secondary text-on-secondary text-[10px] font-black flex items-center justify-center border-2 border-inverse-surface">1</span>
         </div>
         <div class="min-w-0">
           <div class="flex items-center gap-1.5">
-            <span class="text-[11px] text-outline-variant font-bold uppercase tracking-wider">Orden Activa</span>
+            <span class="staff-element text-[11px] text-outline-variant font-bold uppercase tracking-wider">Orden Activa</span>
+            <span class="client-element text-[11px] text-secondary font-bold uppercase tracking-wider flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Mi Pedido
+            </span>
             <span class="inline-flex items-center gap-0.5 text-[10px] font-bold text-primary-fixed bg-primary/30 px-1.5 py-0.5 rounded">
               <span class="material-symbols-outlined text-[11px]">edit</span> Ver / Editar
             </span>
@@ -636,21 +697,51 @@
         </div>
       </div>
 
+      <!-- Acciones de la barra móvil: STAFF vs CLIENTE -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <button onclick="posApp.openMobileCart()" class="h-10 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-inverse-on-surface font-bold text-xs flex items-center gap-1 transition-all" title="Ver lista de productos y editar">
-          <span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
-          <span class="hidden xs:inline">Detalle</span>
-        </button>
-        <button onclick="posApp.openCheckoutModal()" class="h-10 px-3.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-black text-xs sm:text-sm flex items-center gap-1 shadow-md active:scale-95 transition-all">
-          <span>Cobrar</span>
-          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-        </button>
+        <!-- Para Staff: Detalle y Cobro POS -->
+        <div class="staff-element flex items-center gap-1.5">
+          <button onclick="posApp.openMobileCart()" class="h-10 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-inverse-on-surface font-bold text-xs flex items-center gap-1 transition-all" title="Ver lista de productos y editar">
+            <span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+            <span class="hidden xs:inline">Detalle</span>
+          </button>
+          <button onclick="posApp.openCheckoutModal()" class="h-10 px-3.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-black text-xs sm:text-sm flex items-center gap-1 shadow-md active:scale-95 transition-all">
+            <span>Cobrar</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </button>
+        </div>
+
+        <!-- Para Cliente: Botón WhatsApp Pedido -->
+        <div class="client-element flex items-center gap-1.5">
+          <button onclick="posApp.openClientCartModal()" class="h-10 px-3.5 rounded-xl bg-secondary hover:bg-secondary/90 text-white font-extrabold text-xs sm:text-sm flex items-center gap-1.5 shadow-md active:scale-95 transition-all">
+            <span class="material-symbols-outlined text-[18px]">chat</span>
+            <span>Pedir WhatsApp</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- BARRA DE NAVEGACIÓN INFERIOR (MOBILE ONLY) -->
-  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest border-t border-surface-container-highest px-2 py-1.5 flex justify-around items-center shadow-lg">
+  <!-- BOTÓN FLOTANTE EN ESCRITORIO PARA CLIENTE (VER PEDIDO) -->
+  <div id="desktopFloatingClientCart" class="client-element fixed bottom-6 right-6 z-40 hidden sm:flex items-center">
+    <button 
+      onclick="posApp.openClientCartModal()" 
+      class="flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-secondary hover:bg-secondary/90 text-white font-extrabold text-sm shadow-2xl active:scale-95 transition-all cursor-pointer border border-white/20 hover:shadow-secondary/50 group"
+    >
+      <div class="relative flex items-center justify-center">
+        <span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+        <span id="floatingClientCartBadge" class="absolute -top-2.5 -right-2.5 px-1.5 py-0.5 rounded-full bg-primary text-white text-[10px] font-black tabular-nums">0</span>
+      </div>
+      <div class="text-left leading-tight">
+        <span class="text-[11px] text-white/80 block uppercase tracking-wider font-bold">Mi Pedido</span>
+        <span id="floatingClientCartTotal" class="text-base font-black tabular-nums">$0</span>
+      </div>
+      <span class="material-symbols-outlined text-[20px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+    </button>
+  </div>
+
+  <!-- BARRA DE NAVEGACIÓN INFERIOR (SOLO STAFF - OCULTA PARA CLIENTE) -->
+  <nav class="staff-element lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-surface-container-lowest border-t border-surface-container-highest px-2 py-1.5 flex justify-around items-center shadow-lg">
     <button id="bottomNavBtn_pos" onclick="posApp.switchView('pos')" class="flex flex-col items-center justify-center py-1 px-3 rounded-xl bg-primary text-on-primary text-[10px] font-bold">
       <span class="material-symbols-outlined text-[20px]">point_of_sale</span> POS
     </button>
@@ -666,6 +757,134 @@
   </nav>
 
   <!-- ================= MODALES DEL SISTEMA ================= -->
+
+  <!-- MODAL DE PEDIDO DEL CLIENTE / CARRITO CON ENVÍO POR WHATSAPP -->
+  <div id="clientCartModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm overflow-y-auto animate-in">
+    <div class="w-full max-w-xl bg-surface-container-lowest rounded-3xl shadow-2xl border border-surface-container-highest overflow-hidden my-auto max-h-[92vh] flex flex-col">
+      
+      <!-- Header del Modal -->
+      <div class="px-5 py-4 bg-surface-container-low border-b border-surface-container-highest flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-secondary flex items-center justify-center text-white shadow-xs">
+            <span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-on-surface text-base sm:text-lg leading-tight">
+              Mi Pedido • <span class="store-name-text">Natural Market &amp; Pet</span>
+            </h3>
+            <p class="text-xs text-on-surface-variant font-medium">Revisá tus productos y envialo directo por WhatsApp</p>
+          </div>
+        </div>
+        <button onclick="posApp.closeClientCartModal()" class="w-9 h-9 rounded-xl text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors flex items-center justify-center cursor-pointer">
+          <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+      </div>
+
+      <!-- Lista de Productos en el Carrito -->
+      <div id="clientCartItemsContainer" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
+        <!-- Se renderiza dinámicamente -->
+      </div>
+
+      <!-- Datos del Cliente & Envío (Formulario simple) -->
+      <div class="px-5 py-3.5 bg-surface-container-low/70 border-t border-surface-container-highest space-y-3 shrink-0">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+              Tu Nombre / Apellido:
+            </label>
+            <input 
+              id="clientOrderCustomerName" 
+              type="text" 
+              placeholder="Ej: María Gómez" 
+              class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-xs font-semibold text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
+            />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+              Forma de Entrega:
+            </label>
+            <select 
+              id="clientOrderDeliveryType" 
+              onchange="posApp.handleDeliveryTypeChange(this.value)"
+              class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-xs font-bold text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary cursor-pointer"
+            >
+              <option value="retiro">🏪 Retiro en el Local (Av. Colón 1234)</option>
+              <option value="delivery">🛵 Envío a Domicilio</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dirección de Entrega -->
+        <div id="clientAddressRow" class="hidden">
+          <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+            Dirección y Detalle de Entrega:
+          </label>
+          <input 
+            id="clientOrderAddress" 
+            type="text" 
+            placeholder="Calle, número, piso/depto o entrecalles..." 
+            class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-xs font-medium text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
+          />
+        </div>
+
+        <!-- Preferencia de Pago -->
+        <div>
+          <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+            Forma de Pago Estimada:
+          </label>
+          <div class="grid grid-cols-3 gap-1.5 text-xs">
+            <label class="flex items-center gap-1.5 p-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest cursor-pointer hover:border-secondary">
+              <input type="radio" name="clientPaymentPref" value="Efectivo (10% Desc.)" checked class="text-secondary focus:ring-secondary" onchange="posApp.updateClientOrderTotal()"/>
+              <span class="font-bold text-[11px]">💵 Efectivo</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest cursor-pointer hover:border-secondary">
+              <input type="radio" name="clientPaymentPref" value="Transferencia / Alias" class="text-secondary focus:ring-secondary" onchange="posApp.updateClientOrderTotal()"/>
+              <span class="font-bold text-[11px]">🏦 Transferencia</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-2 rounded-xl bg-surface-container-lowest border border-surface-container-highest cursor-pointer hover:border-secondary">
+              <input type="radio" name="clientPaymentPref" value="Mercado Pago" class="text-secondary focus:ring-secondary" onchange="posApp.updateClientOrderTotal()"/>
+              <span class="font-bold text-[11px]">📱 Mercado Pago</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Notas adicionales -->
+        <div>
+          <input 
+            id="clientOrderNotes" 
+            type="text" 
+            placeholder="Aclaraciones opcionales (ej: 'llamar al timbre blanco', 'enviar factura B')..." 
+            class="w-full px-3 py-1.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-xs text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary"
+          />
+        </div>
+      </div>
+
+      <!-- Resumen y Botón de Envío WhatsApp -->
+      <div class="p-4 sm:p-5 bg-surface-container-lowest border-t border-surface-container-highest space-y-3 shrink-0">
+        <div class="flex items-baseline justify-between">
+          <div>
+            <span class="text-xs text-on-surface-variant font-bold uppercase">Total Estimado del Pedido:</span>
+            <p id="clientOrderDiscountNote" class="text-[11px] text-secondary font-bold">Incluye 10% de descuento abonando en efectivo</p>
+          </div>
+          <span id="clientOrderTotalDisplay" class="text-2xl sm:text-3xl font-black text-primary tabular-nums">$0</span>
+        </div>
+
+        <button 
+          onclick="posApp.sendClientOrderWhatsApp()" 
+          class="w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-emerald-600 via-secondary to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 active:scale-[0.99] text-white font-extrabold text-base flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-900/20 hover:shadow-emerald-900/30 transition-all cursor-pointer border border-emerald-400/30"
+        >
+          <span class="material-symbols-outlined text-[24px]">chat</span>
+          <span>Enviar Pedido por WhatsApp</span>
+        </button>
+
+        <div class="flex items-center justify-between text-[11px] text-outline font-medium px-1">
+          <span>⚡ Confirmación instantánea por chat</span>
+          <span>• Sin registro previo</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- 0. MODAL / DRAWER DE CARRITO EN MÓVIL (VER, EDITAR Y ELIMINAR ÍTEMS) -->
   <div id="mobileCartModal" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-on-background/60 backdrop-blur-xs">
@@ -767,8 +986,8 @@
             <span class="material-symbols-outlined text-[20px]">scale</span>
           </div>
           <div>
-            <h3 class="font-extrabold text-on-surface text-base leading-tight">Balanza Digital</h3>
-            <p class="text-xs text-secondary font-bold flex items-center gap-1">
+            <h3 id="scaleModalTitle" class="font-extrabold text-on-surface text-base leading-tight">Balanza Digital</h3>
+            <p id="scaleModalSubtitle" class="text-xs text-secondary font-bold flex items-center gap-1">
               <span class="w-2 h-2 rounded-full bg-secondary inline-block animate-pulse"></span>
               Puerto COM3 Conectada (0.000 kg)
             </p>
