@@ -235,6 +235,8 @@ class NaturalPOSApp {
     this.storeName = 'Natural Market & Pet';
     this.storeWhatsApp = '5492236779934';
     this.storeSlogan = 'Nutrición animal, semillas a granel y suplementos saludables';
+    this.deferredPwaPrompt = null;
+    this.isPwaInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
     // Caja turno inicial
     this.cashRegister = this.loadCashRegister();
@@ -244,6 +246,7 @@ class NaturalPOSApp {
 
   init() {
     this.initSpeechRecognition();
+    this.initPwaInstall();
     this.renderProducts();
     this.renderCart();
     this.bindEvents();
@@ -2142,6 +2145,109 @@ class NaturalPOSApp {
   closeDossierModal() {
     const modal = document.getElementById('dossierModal');
     if (modal) modal.classList.add('hidden');
+  }
+
+  // --- GESTIÓN DE INSTALACIÓN PWA (PROGRESSIVE WEB APP) ---
+  initPwaInstall() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPwaPrompt = e;
+      this.updatePwaInstallUI();
+      console.log('Evento beforeinstallprompt capturado listo para instalación');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      this.deferredPwaPrompt = null;
+      this.isPwaInstalled = true;
+      this.updatePwaInstallUI();
+      this.showQuickToast('✅ ¡Aplicación instalada con éxito en tu dispositivo!');
+    });
+
+    // Detectar cambios en display-mode
+    window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
+      this.isPwaInstalled = evt.matches;
+      this.updatePwaInstallUI();
+    });
+
+    this.updatePwaInstallUI();
+  }
+
+  promptPwaInstall() {
+    if (this.isPwaInstalled) {
+      this.showQuickToast('✅ La aplicación ya está instalada en tu dispositivo.');
+      return;
+    }
+
+    if (this.deferredPwaPrompt) {
+      this.triggerNativeInstallPrompt();
+    } else {
+      this.openPwaInstallModal();
+    }
+  }
+
+  async triggerNativeInstallPrompt() {
+    if (!this.deferredPwaPrompt) {
+      this.openPwaInstallModal();
+      return;
+    }
+
+    const promptEvent = this.deferredPwaPrompt;
+    promptEvent.prompt();
+    try {
+      const { outcome } = await promptEvent.userChoice;
+      if (outcome === 'accepted') {
+        this.showQuickToast('✅ ¡Instalación aceptada!');
+        this.deferredPwaPrompt = null;
+        this.isPwaInstalled = true;
+        this.updatePwaInstallUI();
+        this.closePwaInstallModal();
+      } else {
+        this.showQuickToast('Instalación cancelada');
+      }
+    } catch (err) {
+      console.warn('Error en prompt de instalación:', err);
+      this.openPwaInstallModal();
+    }
+  }
+
+  openPwaInstallModal() {
+    const modal = document.getElementById('pwaInstallGuideModal');
+    const nativeBlock = document.getElementById('pwaNativePromptBlock');
+    const guideIOS = document.getElementById('pwaGuideIOS');
+    const guideAndroid = document.getElementById('pwaGuideAndroid');
+    const guideDesktop = document.getElementById('pwaGuideDesktop');
+
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    const isAndroid = /Android/.test(ua);
+
+    if (nativeBlock) {
+      nativeBlock.classList.toggle('hidden', !this.deferredPwaPrompt);
+    }
+
+    if (guideIOS) guideIOS.classList.toggle('hidden', !isIOS);
+    if (guideAndroid) guideAndroid.classList.toggle('hidden', isIOS || !isAndroid);
+    if (guideDesktop) guideDesktop.classList.toggle('hidden', isIOS || isAndroid);
+
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  closePwaInstallModal() {
+    const modal = document.getElementById('pwaInstallGuideModal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  updatePwaInstallUI() {
+    const demoText = document.getElementById('installPwaDemoText');
+    const headerText = document.getElementById('installPwaHeaderText');
+
+    if (this.isPwaInstalled) {
+      if (demoText) demoText.textContent = 'App Instalada';
+      if (headerText) headerText.textContent = 'App Instalada';
+    } else {
+      if (demoText) demoText.textContent = 'Instalar App';
+      if (headerText) headerText.textContent = 'Instalar App';
+    }
   }
 
   resetDemoData() {
