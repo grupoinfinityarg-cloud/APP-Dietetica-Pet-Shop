@@ -100,6 +100,14 @@
     body.role-cliente #mobileCartBar {
       bottom: 1rem !important;
     }
+    #desktopFloatingClientCart {
+      display: none !important;
+    }
+    @media (min-width: 768px) {
+      body.role-cliente #desktopFloatingClientCart {
+        display: flex !important;
+      }
+    }
     @media (min-width: 1024px) {
       body.role-cliente #productGrid {
         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;

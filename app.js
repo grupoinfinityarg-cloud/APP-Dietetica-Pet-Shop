@@ -2083,10 +2083,10 @@ class NaturalPOSApp {
     if (mobileTotal) mobileTotal.textContent = this.formatMoney(subtotal);
     if (mobileCount) mobileCount.textContent = `• ${totalCount} ítems`;
 
-    // Botón flotante desktop para cliente
+    // Botón flotante desktop para cliente (solo en pantallas desktop >= 768px)
     const desktopFloating = document.getElementById('desktopFloatingClientCart');
     if (desktopFloating) {
-      if (this.isCustomerMode && this.cart.length > 0) {
+      if (this.isCustomerMode && this.cart.length > 0 && window.innerWidth >= 768) {
         desktopFloating.classList.remove('hidden');
       } else {
         desktopFloating.classList.add('hidden');
